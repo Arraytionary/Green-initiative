@@ -1,8 +1,6 @@
 import React from 'react';
-import {Text} from 'native-base';
+import MyCarousel from '../components/ChallengesCarousel';
 
-const ChallengeScreen = props => {
-    return (<Text> screen </Text>);
-};
+const ChallengeScreen = () => <MyCarousel></MyCarousel>;
 
 export default ChallengeScreen;

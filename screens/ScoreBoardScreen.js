@@ -1,8 +1,10 @@
 import React from 'react';
-import {Text} from 'native-base';
+import { Text, Content } from 'native-base';
 
-const ScoreBoardScreen = props => {
-    return (<Text> score </Text>)
-}
+const ScoreboardScreen = () => (
+  <Content>
+    <Text> score </Text>
+  </Content>
+);
 
-export default ScoreBoardScreen;
+export default ScoreboardScreen;
