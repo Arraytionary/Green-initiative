@@ -5,7 +5,8 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import firebase from 'firebase';
 import Roboto from 'native-base/Fonts/Roboto.ttf';
-import RobotoMedium from 'native-base/Fonts/Roboto_medium.ttf';
+// eslint-disable-next-line camelcase
+import Roboto_medium from 'native-base/Fonts/Roboto_medium.ttf';
 
 import MainNavigators from './navigation/AppNavigation';
 
@@ -23,7 +24,7 @@ const firebaseConfig = {
 const fetchFonts = () =>
   Font.loadAsync({
     Roboto,
-    RobotoMedium,
+    Roboto_medium,
     ...Ionicons.font,
   });
 
