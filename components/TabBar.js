@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Footer, FooterTab, Button, Text } from 'native-base';
+import propTypes from 'prop-types';
 
 import Challenges from '../assets/icons/challenges.svg';
 import Monster from '../assets/icons/monster.svg';
 import Scoreboard from '../assets/icons/scoreboard.svg';
+
+const styles = StyleSheet.create({
+  active: {
+    backgroundColor: '#199473',
+  },
+  text: {
+    color: 'white',
+  },
+});
 
 const TabBar = props => {
   const [isActive, setIsActive] = useState([false, true, false]);
@@ -46,13 +56,8 @@ const TabBar = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  active: {
-    backgroundColor: '#199473',
-  },
-  text: {
-    color: 'white',
-  },
-});
+TabBar.propTypes = {
+  navigation: propTypes.object,
+};
 
 export default TabBar;

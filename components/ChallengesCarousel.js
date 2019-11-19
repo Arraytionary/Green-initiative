@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+import propTypes from 'prop-types';
 import Carousel from 'react-native-snap-carousel';
 
 const { height, width } = Dimensions.get('window');
@@ -36,24 +37,31 @@ const styles = StyleSheet.create({
 });
 
 const MyCarousel = () => {
-  const [entries, setEntries] = useState([
+  const [entries] = useState([
     { backgroundColor: 'red' },
     { backgroundColor: 'green' },
     { backgroundColor: 'blue' },
     { backgroundColor: 'yellow' },
   ]);
+  const [carousel, setCarousel] = useState();
+
   const _renderItem = ({ item, index }) => {
     const { backgroundColor } = item;
     return (
       <TouchableOpacity
         style={[styles.item, { backgroundColor }]}
-        // onPress={() => {
-        //   this.numberCarousel.scrollToIndex(index);
-        // }}
+        onPress={() => {
+          carousel.scrollToIndex(index);
+        }}
       >
         <Text style={styles.text}>{index.toString()}</Text>
       </TouchableOpacity>
     );
+  };
+
+  _renderItem.propTypes = {
+    item: propTypes.object,
+    index: propTypes.number,
   };
 
   return (
@@ -64,9 +72,9 @@ const MyCarousel = () => {
         renderItem={_renderItem}
         itemWidth={width * (75 / 100)}
         sliderWidth={300}
-        // ref={c => {
-        //   this.numberCarousel = c;
-        // }}
+        ref={c => {
+          setCarousel(c);
+        }}
       />
     </View>
   );
