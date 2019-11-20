@@ -17,7 +17,7 @@ import * as firebase from "firebase";
 import LeafLogo from "../assets/icons/leaf.svg";
 import FacebookLogo from "../assets/icons/facebook.svg";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [fontReady, setFontReady] = useState(false);
 
   const loadFont = async () => {
@@ -31,6 +31,41 @@ const LoginScreen = () => {
     // Update the document title using the browser API
     loadFont();
   });
+
+  async function facebookLogIn() {
+    try {
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions
+      } = await Facebook.logInWithReadPermissionsAsync("544837729681231", {
+        permissions: ["public_profile"]
+      });
+      if (type === "success") {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+          `https://graph.facebook.com/me?access_token=${token}`
+        );
+
+        const data = await response.json();
+        const credential = await firebase.auth.FacebookAuthProvider.credential(
+          token
+        );
+        firebase.auth().signInWithCredential(credential);
+        navigation.navigate("App");
+
+        // Alert.alert("Logged in!", `Hi ${data.name}!`); // Uncomment this line to see your display name na ja
+        // Good place to redirect the account somewhere
+      } else {
+        // type === 'cancel'
+        // User doesn't grant the access using Facebook
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
 
   return (
     <LinearGradient
@@ -54,39 +89,6 @@ const LoginScreen = () => {
     </LinearGradient>
   );
 };
-
-async function facebookLogIn() {
-  try {
-    const {
-      type,
-      token,
-      expires,
-      permissions,
-      declinedPermissions
-    } = await Facebook.logInWithReadPermissionsAsync("544837729681231", {
-      permissions: ["public_profile"]
-    });
-    if (type === "success") {
-      // Get the user's name using Facebook's Graph API
-      const response = await fetch(
-        `https://graph.facebook.com/me?access_token=${token}`
-      );
-
-      const data = await response.json();
-      const credential = await firebase.auth.FacebookAuthProvider.credential(
-        token
-      );
-      firebase.auth().signInWithCredential(credential);
-      Alert.alert("Logged in!", `Hi ${data.name}!`); // Uncomment this line to see your display name na ja
-      // Good place to redirect the account somewhere
-    } else {
-      // type === 'cancel'
-      // User doesn't grant the access using Facebook
-    }
-  } catch ({ message }) {
-    alert(`Facebook Login Error: ${message}`);
-  }
-}
 
 const styles = StyleSheet.create({
   container: {
