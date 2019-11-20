@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -6,23 +6,23 @@ import {
   Alert,
   Text,
   Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+  TouchableOpacity
+} from "react-native";
 
-import { LinearGradient } from 'expo-linear-gradient';
-import * as Facebook from 'expo-facebook';
-import * as Font from 'expo-font';
-import * as firebase from 'firebase';
+import { LinearGradient } from "expo-linear-gradient";
+import * as Facebook from "expo-facebook";
+import * as Font from "expo-font";
+import * as firebase from "firebase";
 
-import LeafLogo from '../assets/icons/leaf.svg';
-import FacebookLogo from '../assets/icons/facebook.svg';
+import LeafLogo from "../assets/icons/leaf.svg";
+import FacebookLogo from "../assets/icons/facebook.svg";
 
 const LoginScreen = () => {
   const [fontReady, setFontReady] = useState(false);
 
   const loadFont = async () => {
     await Font.loadAsync({
-      'monstserrat-light': require('../assets/fonts/Montserrat/Montserrat-Light.ttf')
+      "monstserrat-light": require("../assets/fonts/Montserrat/Montserrat-Light.ttf")
     });
     setFontReady(true);
   };
@@ -35,7 +35,7 @@ const LoginScreen = () => {
   return (
     <LinearGradient
       style={styles.container}
-      colors={['#EFFCF6', '#8EEDC7', '#147D64']}
+      colors={["#EFFCF6", "#8EEDC7", "#147D64"]}
       start={[0.1, 0.2]}
     >
       <LeafLogo style={styles.logo} width={130} height={116} />
@@ -62,24 +62,22 @@ async function facebookLogIn() {
       token,
       expires,
       permissions,
-      declinedPermissions,
-    } = await Facebook.logInWithReadPermissionsAsync('544837729681231', {
-      permissions: ['public_profile']
+      declinedPermissions
+    } = await Facebook.logInWithReadPermissionsAsync("544837729681231", {
+      permissions: ["public_profile"]
     });
-    if (type === 'success') {
+    if (type === "success") {
       // Get the user's name using Facebook's Graph API
       const response = await fetch(
         `https://graph.facebook.com/me?access_token=${token}`
       );
 
       const data = await response.json();
-      console.log(data);
       const credential = await firebase.auth.FacebookAuthProvider.credential(
         token
       );
-      console.log(credential);
       firebase.auth().signInWithCredential(credential);
-      Alert.alert('Logged in!', `Hi ${data.name}!`); // Uncomment this line to see your display name na ja
+      Alert.alert("Logged in!", `Hi ${data.name}!`); // Uncomment this line to see your display name na ja
       // Good place to redirect the account somewhere
     } else {
       // type === 'cancel'
@@ -93,41 +91,41 @@ async function facebookLogIn() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center"
   },
   logo: {
-    marginBottom: 11,
+    marginBottom: 11
   },
   textLogo: {
-    fontFamily: 'monstserrat-light',
-    color: '#0C6B58',
-    fontStyle: 'normal',
+    fontFamily: "monstserrat-light",
+    color: "#0C6B58",
+    fontStyle: "normal",
     fontSize: 52,
-    fontWeight: '300',
+    fontWeight: "300",
     lineHeight: 64,
     letterSpacing: 0.002,
-    textShadowColor: 'rgba(0, 0, 0, 0.25)',
+    textShadowColor: "rgba(0, 0, 0, 0.25)",
     textShadowOffset: { width: 0, height: 4 },
-    textShadowRadius: 4,
+    textShadowRadius: 4
   },
   facebookLogoContainer: {
     width: 268,
     height: 42,
     marginTop: 62,
-    backgroundColor: '#3B5998',
-    flexDirection: 'row',
+    backgroundColor: "#3B5998",
+    flexDirection: "row",
 
-    alignItems: 'center',
-    borderRadius: 3,
+    alignItems: "center",
+    borderRadius: 3
   },
   facebookLogo: {
     marginLeft: 20,
-    marginRight: 30,
+    marginRight: 30
   },
   facebookLogoText: {
-    color: 'white',
-  },
+    color: "white"
+  }
 });
 
 export default LoginScreen;
