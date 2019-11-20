@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import Roboto from 'native-base/Fonts/Roboto.ttf';
 // eslint-disable-next-line camelcase
 import Roboto_medium from 'native-base/Fonts/Roboto_medium.ttf';
+import Constants from 'expo-constants';
 
 import MainNavigators from './navigation/AppNavigation';
 
@@ -39,7 +40,7 @@ export default function App() {
 
   return (
     <Root>
-      <Container marginTop={25}>
+      <Container marginTop={Constants.statusBarHeight}>
         <MainNavigators />
       </Container>
     </Root>
