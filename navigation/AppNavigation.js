@@ -4,14 +4,21 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
-import ChallengesScreen from '../screens/ChallengesScreen'
-import MonsterScreen from '../screens/MonsterScreen'
-import ScoreBoardScreen from '../screens/ScoreBoardScreen'
+import ChallengesScreen from '../screens/ChallengesScreen';
+import MonsterScreen from '../screens/MonsterScreen';
+import ScoreboardScreen from '../screens/ScoreboardScreen';
 
-const MainNavigators = createBottomTabNavigator({
+import TabBar from '../components/TabBar';
+
+const MainNavigators = createBottomTabNavigator(
+  {
     Challenges: ChallengesScreen,
     Monster: MonsterScreen,
-    Scoreboard: ScoreBoardScreen
-});
+    Scoreboard: ScoreboardScreen,
+  },
+  {
+    tabBarComponent: TabBar,
+  }
+);
 
 export default createAppContainer(MainNavigators);
