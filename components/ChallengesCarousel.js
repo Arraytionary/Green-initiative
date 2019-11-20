@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import propTypes from 'prop-types';
 import Carousel from 'react-native-snap-carousel';
-import { H1, Button, H2, H3 } from 'native-base';
+import { H1, Button, H2 } from 'native-base';
 import { SvgUri } from 'react-native-svg';
 
 import ProfilePhoto from '../assets/icons/profile_photo.svg';
@@ -73,13 +73,14 @@ const MyCarousel = () => {
     },
   ]);
   const [viewChallenges, setViewChallenges] = useState(false);
+  const [clickIndex, setClickIndex] = useState();
 
-  const _renderItem = ({ item }) => {
+  const _renderItem = ({ item, index }) => {
     const { backgroundColor, image, buttonColor } = item;
     let output;
-    if (viewChallenges) {
+    if (viewChallenges && clickIndex === index) {
       output = (
-        <View style={[styles.item, { backgroundColor }]}>
+        <View key={index} style={[styles.item, { backgroundColor }]}>
           <View style={{ flex: 1, width: '100%', padding: 15 }}>
             <H2 style={{ color: 'white' }}>{item.title}</H2>
             <Text style={{ color: 'white', marginTop: 12, fontSize: 16 }}>
@@ -121,7 +122,8 @@ const MyCarousel = () => {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          setViewChallenges(!viewChallenges);
+          setViewChallenges(prev => !prev);
+          setClickIndex(index);
         }}
       >
         {output}
@@ -131,6 +133,7 @@ const MyCarousel = () => {
 
   _renderItem.propTypes = {
     item: propTypes.object,
+    index: propTypes.number,
   };
 
   return (
