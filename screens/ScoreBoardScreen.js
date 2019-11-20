@@ -1,6 +1,13 @@
 import React from 'react';
-import { View, Text, FlatList, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import propTypes from 'prop-types';
 
 import { H2, H3 } from 'native-base';
 import ProfilePhoto from '../assets/icons/profile_photo.svg';
@@ -57,7 +64,6 @@ function Item({ title, point }) {
   return (
     <View
       style={{
-        // marginVertical: 10,
         paddingHorizontal: 25,
       }}
     >
@@ -80,7 +86,12 @@ function Item({ title, point }) {
   );
 }
 
-const ScoreboardScreen = () => (
+Item.propTypes = {
+  title: propTypes.string,
+  point: propTypes.number,
+};
+
+const ScoreboardScreen = props => (
   <View style={{ flex: 1, height: 500 }}>
     <View
       style={{
@@ -92,7 +103,13 @@ const ScoreboardScreen = () => (
         colors={['#EFFCF6', '#8EEDC7', '#147D64']}
       >
         <View style={{ alignItems: 'center' }}>
-          <ProfilePhoto />
+          <TouchableWithoutFeedback
+            onPress={() => props.navigation.navigate('Profile')}
+          >
+            <View>
+              <ProfilePhoto />
+            </View>
+          </TouchableWithoutFeedback>
           <H2 style={{ fontWeight: 'bold', marginTop: 12 }}>
             Sarita Kongnurat
           </H2>
@@ -113,5 +130,9 @@ const ScoreboardScreen = () => (
     </View>
   </View>
 );
+
+ScoreboardScreen.propTypes = {
+  navigation: propTypes.object,
+};
 
 export default ScoreboardScreen;
