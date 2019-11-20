@@ -1,45 +1,37 @@
 import React, {Component} from 'react';
-import {Modal, Text, TouchableHighlight, View, Alert} from 'react-native';
+import { Text, Button, TouchableHighlight, View, Alert} from 'react-native';
+import { H1, H2, H3 } from 'native-base';
+import Modal from "react-native-modal";
+import { SvgUri } from 'react-native-svg';
 
 class CompletedChallengeModal extends Component {
     state = {
-        modalVisible: false,
+        isModalVisible: false
     };
 
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
-    }
+    toggleModal = () => {
+        this.setState({ isModalVisible: !this.state.isModalVisible });
+    };
 
     render() {
         return (
-            <View style={{marginTop: 22}}>
-                <Modal
-                    animationType="fade"
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                    }}>
-                    <View style={{marginTop: 22, backgroundColor: 'blue'}}>
-                        <View>
-                            <Text>Hello World!</Text>
-
-                            <TouchableHighlight
-                                onPress={() => {
-                                    this.setModalVisible(!this.state.modalVisible);
-                                }}>
-                                <Text>Hide Modal</Text>
-                            </TouchableHighlight>
-                        </View>
+            <View style={{ flex: 1 }}>
+                <Button title="Show modal" onPress={this.toggleModal} />
+                <Modal isVisible={this.state.isModalVisible}
+                       animationIn="zoomInDown"
+                >
+                    <View style={{
+                        flex: 1,
+                        // flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'}}>
+                        <SvgUri width="50%" height="50%" uri="https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/winner%201.svg?alt=media&token=a80ecd9f-e959-4975-9e70-e8c1d74cd353"/>
+                        {/*<Text>Challenge Completed!</Text>*/}
+                        <H2 style={{ color: 'white' }}>Challenge Completed!</H2>
+                        <H3 style={{ color: 'white' }}>30 points received</H3>
+                        <Button title="Hide modal" onPress={this.toggleModal} />
                     </View>
                 </Modal>
-
-                <TouchableHighlight
-                    onPress={() => {
-                        this.setModalVisible(true);
-                    }}>
-                    <Text>Show Modal</Text>
-                </TouchableHighlight>
             </View>
         );
     }
