@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import ChallengesScreen from '../screens/ChallengesScreen';
 import MonsterScreen from '../screens/MonsterScreen';
-import ScoreboardScreen from '../screens/ScoreboardScreen';
+import ScoreBoardScreen from '../screens/ScoreBoardScreen';
 
 import TabBar from '../components/TabBar';
 
@@ -11,7 +11,7 @@ const MainNavigators = createBottomTabNavigator(
   {
     Challenges: ChallengesScreen,
     Monster: MonsterScreen,
-    Scoreboard: ScoreboardScreen,
+    Scoreboard: ScoreBoardScreen,
   },
   {
     tabBarComponent: TabBar,
