@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import ChallengesScreen from '../screens/ChallengesScreen';
 import MonsterScreen from '../screens/MonsterScreen';
-import ScoreboardScreen from '../screens/ScoreboardScreen';
+import ScoreboardScreen from '../screens/ScoreBoardScreen';
 
 import TabBar from '../components/TabBar';
 
