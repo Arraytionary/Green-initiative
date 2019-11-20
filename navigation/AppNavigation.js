@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -10,7 +8,7 @@ import MonsterScreen from '../screens/MonsterScreen';
 import ScoreboardScreen from '../screens/ScoreboardScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
-import TabBar from '../components/TabBar';
+import CustomTabBar from '../components/CustomTabBar';
 import LoginScreen from '../screens/LoginScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 
@@ -38,22 +36,29 @@ const MainNavigators = createBottomTabNavigator(
     Scoreboard: ScoreboardNavigators,
   },
   {
-    tabBarComponent: TabBar,
+    tabBarComponent: CustomTabBar,
   }
 );
 
-const AuthStack = createStackNavigator({ Login: LoginScreen });
-const AppStack = createStackNavigator({ MainNavigators });
+const AuthStack = createStackNavigator(
+  { Login: LoginScreen },
+  {
+    defaultNavigationOptions: {
+      header: null,
+    },
+  }
+);
 
 export default createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading: AuthLoadingScreen,
-      App: AppStack,
-      Auth: AuthStack,
-    },
-    {
-      initialRouteName: 'AuthLoading',
-    }
-  )
+  MainNavigators
+  // createSwitchNavigator(
+  //   {
+  //     AuthLoading: AuthLoadingScreen,
+  //     App: MainNavigators,
+  //     Auth: AuthStack,
+  //   },
+  //   {
+  //     initialRouteName: 'AuthLoading',
+  //   }
+  // )
 );
