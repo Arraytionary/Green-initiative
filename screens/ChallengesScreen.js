@@ -13,10 +13,11 @@ import { H1, Button, H2 } from 'native-base';
 import { SvgUri } from 'react-native-svg';
 import firebase from 'firebase';
 import CardFlip from 'react-native-card-flip';
+import Constants from 'expo-constants';
 
 import ProfilePhoto from '../assets/icons/profile_photo.svg';
 
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   screen: {
@@ -24,12 +25,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: width * (90 / 100),
-    height: height * (100 / 100),
   },
   item: {
     borderRadius: 14,
-    height: 500,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -83,7 +82,6 @@ const ChallengesScreen = () => {
 
   const _renderItem = ({ item, index }) => {
     const { backgroundColor, image, buttonColor } = item;
-    console.log(card.current.length);
     return (
       <View
         style={{
@@ -91,15 +89,16 @@ const ChallengesScreen = () => {
           width: '100%',
           justifyContent: 'center',
           alignItems: 'center',
+          paddingHorizontal: 10,
         }}
       >
         <CardFlip
           style={{
-            height: 500,
+            height: '87%',
             width: '100%',
             borderRadius: 14,
           }}
-          perspective={1400}
+          perspective={2000}
           flipZoom={0.01}
           ref={_card => card.current.push(_card)}
         >
@@ -158,10 +157,11 @@ const ChallengesScreen = () => {
       style={{
         flex: 1,
         backgroundColor: '#F0F4F8',
-        paddingTop: 20,
+        paddingTop: Constants.statusBarHeight,
         alignItems: 'center',
       }}
     >
+      {/* <StatusBar hidden /> */}
       <View
         style={{
           flexDirection: 'row',
@@ -169,7 +169,7 @@ const ChallengesScreen = () => {
           alignItems: 'center',
           width: width * (85 / 100),
           paddingHorizontal: 10,
-          paddingTop: 15,
+          paddingTop: 25,
         }}
       >
         <View>
@@ -190,6 +190,10 @@ const ChallengesScreen = () => {
       >
         <View style={styles.screen}>
           <Carousel
+            contentContainerCustomStyle={{
+              padding: 10,
+            }}
+            inactiveSlideScale={1}
             data={challenges}
             renderItem={_renderItem}
             itemWidth={width * (90 / 100)}

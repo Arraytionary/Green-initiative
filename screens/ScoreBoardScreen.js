@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import propTypes from 'prop-types';
+import Constants from 'expo-constants';
 
 import { H2, H3 } from 'native-base';
 import ProfilePhoto from '../assets/icons/profile_photo.svg';
@@ -92,7 +93,13 @@ Item.propTypes = {
 };
 
 const ScoreboardScreen = props => (
-  <View style={{ flex: 1, height: 500 }}>
+  <View
+    style={{
+      flex: 1,
+      height: 500,
+      paddingTop: Constants.statusBarHeight,
+    }}
+  >
     <View
       style={{
         flex: 4,
@@ -100,7 +107,7 @@ const ScoreboardScreen = props => (
     >
       <LinearGradient
         style={{ flex: 1, justifyContent: 'center' }}
-        colors={['#EFFCF6', '#8EEDC7', '#147D64']}
+        colors={['#FFFFFF', '#8EEDC7', '#147D64']}
       >
         <View style={{ alignItems: 'center' }}>
           <TouchableWithoutFeedback

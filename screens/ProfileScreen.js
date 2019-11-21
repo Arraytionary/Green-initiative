@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { H2 } from 'native-base';
 import ProfilePhoto from '../assets/icons/profile_photo.svg';
-import GemPhoto from '../assets/icons/gem_solid.svg';
-import GlassPhoto from '../assets/icons/glass_whiskey_solid.svg';
-import BagPhoto from '../assets/icons/shopping_bag_solid.svg';
 import Chart from '../assets/icons/chart.svg';
+import Coin from '../assets/icons/pokecoin.svg';
+import MoneyBag from '../assets/icons/money_bag.svg';
+import PaperCup from '../assets/icons/paper_cup.svg';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,22 +45,22 @@ export default class ProfileScreen extends Component {
         <View style={styles.middleContent}>
           <View style={{ flex: 1 }}>
             <View style={styles.items}>
-              <GemPhoto />
-              <Text style={{ fontWeight: 'bold' }}>100</Text>
+              <Coin height={50} width={50} />
+              <Text style={{ fontWeight: 'bold', fontSize: 20 }}>100</Text>
               <Text>Gem Collected</Text>
             </View>
           </View>
           <View style={{ flex: 1 }}>
             <View style={styles.items}>
-              <BagPhoto />
-              <Text style={{ fontWeight: 'bold' }}>100</Text>
+              <MoneyBag height={50} width={50} />
+              <Text style={{ fontWeight: 'bold', fontSize: 20 }}>100</Text>
               <Text>Bag Saved</Text>
             </View>
           </View>
           <View style={{ flex: 1 }}>
             <View style={styles.items}>
-              <GlassPhoto />
-              <Text style={{ fontWeight: 'bold' }}>100</Text>
+              <PaperCup height={50} width={50} />
+              <Text style={{ fontWeight: 'bold', fontSize: 20 }}>100</Text>
               <Text>Cup Saved</Text>
             </View>
           </View>

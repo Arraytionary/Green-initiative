@@ -40,7 +40,7 @@ export default function App() {
 
   return (
     <Root>
-      <Container marginTop={Constants.statusBarHeight}>
+      <Container>
         <MainNavigators />
       </Container>
     </Root>
