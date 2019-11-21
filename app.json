@@ -1,5 +1,9 @@
 {
   "expo": {
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
+    },
     "name": "Green Initiative",
     "slug": "green-initiative",
     "privacy": "public",
