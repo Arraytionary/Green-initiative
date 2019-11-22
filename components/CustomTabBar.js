@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const TabBar = props => {
+const CustomTabBar = props => {
   const [isActive, setIsActive] = useState([true, false, false]);
   const activeButtonHandler = (pos, routeName) => {
     const array = [false, false, false];
@@ -56,8 +56,8 @@ const TabBar = props => {
   );
 };
 
-TabBar.propTypes = {
+CustomTabBar.propTypes = {
   navigation: propTypes.object,
 };
 
-export default TabBar;
+export default CustomTabBar;
