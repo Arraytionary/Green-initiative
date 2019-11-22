@@ -1,9 +1,18 @@
-import React from 'react';
-import { Text } from 'native-base';
+import React, {Component}  from 'react';
+import { Text, Button} from 'native-base';
 import Constants from 'expo-constants';
+import CompletedChallengeModal from '../components/CompletedChallengeModal'
+export default class MonsterScreen extends Component{
 
-const MonsterScreen = () => (
-  <Text style={{ paddingTop: Constants.statusBarHeight }}> monster </Text>
-);
+    render(){
 
-export default MonsterScreen;
+        return (
+            <CompletedChallengeModal />
+            // <Text style={{ paddingTop: Constants.statusBarHeight }}> monster </Text>
+        )
+    }
+
+}
+
+
+// export default MonsterScreen;
