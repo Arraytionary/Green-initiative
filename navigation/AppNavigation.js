@@ -1,29 +1,81 @@
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
+import CustomHeader from "../components/CustomHeader";
 import ChallengesScreen from "../screens/ChallengesScreen";
 import MonsterScreen from "../screens/MonsterScreen";
-import ScoreboardScreen from "../screens/ScoreBoardScreen";
+import ScoreboardScreen from "../screens/ScoreboardScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
-import TabBar from "../components/TabBar";
+import CustomTabBar from "../components/CustomTabBar";
+import LoginScreen from "../screens/LoginScreen";
+import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 
-const ScoreboardNavigators = createStackNavigator({
-  Scoreboard: ScoreboardScreen,
-  Profile: ProfileScreen
-});
-
-const MainNavigators = createBottomTabNavigator(
+const ScoreboardNavigators = createStackNavigator(
   {
-    Challenges: ChallengesScreen,
-    Monster: MonsterScreen,
-    //Change back later too
-    Scoreboard: ScoreboardNavigators
+    Scoreboard: ScoreboardScreen,
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        header: CustomHeader
+      }
+    }
   },
   {
-    tabBarComponent: TabBar
+    defaultNavigationOptions: {
+      header: null
+    }
   }
 );
 
-export default createAppContainer(MainNavigators);
+const ChallengesNavigator = createStackNavigator(
+  {
+    Challenges: ChallengesScreen,
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        header: CustomHeader
+      }
+    }
+  },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
+
+const MainNavigators = createBottomTabNavigator(
+  {
+    Challenges: ChallengesNavigator,
+    Monster: MonsterScreen,
+    Scoreboard: ScoreboardNavigators
+  },
+  {
+    tabBarComponent: CustomTabBar
+  }
+);
+
+const AuthStack = createStackNavigator(
+  { Login: LoginScreen },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
+
+export default createAppContainer(
+  // MainNavigators
+  createSwitchNavigator(
+    {
+      AuthLoading: AuthLoadingScreen,
+      App: MainNavigators,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: "AuthLoading"
+    }
+  )
+);
