@@ -1,39 +1,81 @@
-import React from 'react';
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { createBottomTabNavigator } from "react-navigation-tabs";
 
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import CustomHeader from "../components/CustomHeader";
+import ChallengesScreen from "../screens/ChallengesScreen";
+import MonsterScreen from "../screens/MonsterScreen";
+import ScoreboardScreen from "../screens/ScoreboardScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
-import ChallengesScreen from '../screens/ChallengesScreen';
-import MonsterScreen from '../screens/MonsterScreen';
-import ScoreboardScreen from '../screens/ScoreBoardScreen';
-import TabBar from '../components/TabBar';
-import LoginScreen from '../screens/LoginScreen';
-import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+import CustomTabBar from "../components/CustomTabBar";
+import LoginScreen from "../screens/LoginScreen";
+import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 
-const MainNavigators = createBottomTabNavigator(
+const ScoreboardNavigators = createStackNavigator(
   {
-    Challenges: ChallengesScreen,
-    Monster: MonsterScreen,
     Scoreboard: ScoreboardScreen,
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        header: CustomHeader
+      }
+    }
   },
   {
-    tabBarComponent: TabBar,
+    defaultNavigationOptions: {
+      header: null
+    }
   }
 );
 
-const AuthStack = createStackNavigator({ Login: LoginScreen });
-const AppStack = createStackNavigator({ MainNavigators });
+const ChallengesNavigator = createStackNavigator(
+  {
+    Challenges: ChallengesScreen,
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        header: CustomHeader
+      }
+    }
+  },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
+
+const MainNavigators = createBottomTabNavigator(
+  {
+    Challenges: ChallengesNavigator,
+    Monster: MonsterScreen,
+    Scoreboard: ScoreboardNavigators
+  },
+  {
+    tabBarComponent: CustomTabBar
+  }
+);
+
+const AuthStack = createStackNavigator(
+  { Login: LoginScreen },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
 
 export default createAppContainer(
+  // MainNavigators
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
-      App: AppStack,
-      Auth: AuthStack,
+      App: MainNavigators,
+      Auth: AuthStack
     },
     {
-      initialRouteName: 'AuthLoading',
+      initialRouteName: "AuthLoading"
     }
   )
 );

@@ -1,18 +1,14 @@
-import React, { Component } from "react";
-import * as firebase from "firebase";
+import { useEffect } from 'react';
+import firebase from 'firebase';
 
-class AuthLoadingScreen extends Component {
-  componentDidMount() {
-    console.log(this.props);
+const AuthLoadingScreen = ({ navigation }) => {
+  useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-      console.log("user", user);
-      this.props.navigation.navigate(user ? "App" : "Auth");
+      navigation.navigate(user ? 'App' : 'Auth');
     });
-  }
+  }, [navigation]);
 
-  render() {
-    return null;
-  }
-}
+  return null;
+};
 
 export default AuthLoadingScreen;
