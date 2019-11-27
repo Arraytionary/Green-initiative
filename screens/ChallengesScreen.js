@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChallengesScreen = () => {
+const ChallengesScreen = props => {
   const [userName, setUserName] = useState('Mapring');
   const [photoUrl, setPhotoUrl] = useState('');
   useEffect(() => {
@@ -176,11 +176,18 @@ const ChallengesScreen = () => {
           <H1 style={{ fontWeight: 'bold' }}>Hello, {userName}</H1>
           <Text style={{ marginTop: 6 }}>You have 9999 points</Text>
         </View>
-        {photoUrl ? (
-          <Image style={{ width: 70, height: 70 }} source={{ uri: photoUrl }} />
-        ) : (
-          <ProfilePhoto width={70} height={70} />
-        )}
+        <TouchableWithoutFeedback
+          onPress={() => props.navigation.navigate('Profile')}
+        >
+          {photoUrl ? (
+            <Image
+              style={{ width: 70, height: 70 }}
+              source={{ uri: photoUrl }}
+            />
+          ) : (
+            <ProfilePhoto width={70} height={70} />
+          )}
+        </TouchableWithoutFeedback>
       </View>
       <View
         style={{
@@ -203,6 +210,10 @@ const ChallengesScreen = () => {
       </View>
     </View>
   );
+};
+
+ChallengesScreen.propTypes = {
+  navigation: propTypes.object,
 };
 
 export default ChallengesScreen;

@@ -30,9 +30,26 @@ const ScoreboardNavigators = createStackNavigator(
   }
 );
 
-const MainNavigators = createBottomTabNavigator(
+const ChallengesNavigator = createStackNavigator(
   {
     Challenges: ChallengesScreen,
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        header: CustomHeader,
+      },
+    },
+  },
+  {
+    defaultNavigationOptions: {
+      header: null,
+    },
+  }
+);
+
+const MainNavigators = createBottomTabNavigator(
+  {
+    Challenges: ChallengesNavigator,
     Monster: MonsterScreen,
 
     Scoreboard: ScoreboardNavigators,
