@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Facebook from 'expo-facebook';
 import firebase from 'firebase';
@@ -70,8 +69,6 @@ const LoginScreen = () => {
           .signInWithCredential(credential); // Sign in with Facebook credential
         console.log(facebookProfileData);
         break;
-        // Do something with Facebook profile data
-        // OR you have subscribed to auth state change, authStateChange handler will process the profile data
       }
       case 'cancel': {
         console.log('cancel');

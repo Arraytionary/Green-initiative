@@ -7,7 +7,8 @@ import firebase from 'firebase';
 import Roboto from 'native-base/Fonts/Roboto.ttf';
 // eslint-disable-next-line camelcase
 import Roboto_medium from 'native-base/Fonts/Roboto_medium.ttf';
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
+// import firebaseAdmin from 'firebase-admin'
 
 import MainNavigators from './navigation/AppNavigation';
 
@@ -22,6 +23,8 @@ const firebaseConfig = {
   measurementId: 'G-HTRZYYPXKK',
 };
 
+
+
 const fetchFonts = () =>
   Font.loadAsync({
     Roboto,
@@ -33,6 +36,7 @@ export default function App() {
   const [isReady, setIsReady] = useState(false);
   if (!isReady) {
     firebase.initializeApp(firebaseConfig);
+
     return (
       <AppLoading startAsync={fetchFonts} onFinish={() => setIsReady(true)} />
     );
