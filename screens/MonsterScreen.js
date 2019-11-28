@@ -42,7 +42,7 @@ const MonsterScreen = () => {
 
   useEffect(() => fetchMonster(),[]);
   useEffect(() => fetchMonsterLevel(), [crrMonsterName]);
-  useEffect(() => getMonsterInfo(), [crrMonsterLv]);
+  useEffect(() => getMonsterInfo(), [crrMonsterLv, crrMonsterName]);
   useEffect(() => getProgressToAdd(), []);
   // useEffect(() => addMonsterProgress(), [progressToAdd]);
 
@@ -95,7 +95,7 @@ const MonsterScreen = () => {
               bound = monsterQ.data()["expBound"]
             })
             if(toAdd !== 0){
-              let newCrrPoint = crrPoint + toAdd;;
+              let newCrrPoint = crrPoint + toAdd;
               if (newCrrPoint >= bound){
                 newCrrPoint -= bound
                 console.log(`${newCrrPoint}/${crrBound}`);
@@ -218,9 +218,9 @@ const MonsterScreen = () => {
         <Goal/>
         </Col>
       </Row>
-      <Row size={10}/>
+      <Row size={5}/>
       <Row
-          size={55}
+          size={65}
         style={{
           // backgroundColor: '#1cb71f',
           justifyContent: 'center',
@@ -239,7 +239,7 @@ const MonsterScreen = () => {
         {/*</View>*/}
         <View>
           <Image
-            style={{ width: 300, height: 300 }}
+            style={{ width: 400, height: 350 }}
             source={{uri: monsterSrc}}
               // source={require('../assets/monsters/ball.gif')}
           />
