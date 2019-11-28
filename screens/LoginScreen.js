@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Facebook from 'expo-facebook';
 import firebase from 'firebase';
+import 'firebase/firestore';
 
 import LeafLogo from '../assets/icons/leaf.svg';
 import FacebookLogo from '../assets/icons/facebook.svg';
@@ -68,6 +69,31 @@ const LoginScreen = () => {
           .auth()
           .signInWithCredential(credential); // Sign in with Facebook credential
         console.log(facebookProfileData);
+        const db = firebase.firestore();
+        var uid = firebase.auth().currentUser.uid;
+
+        var docRef = db.collection("users").doc(uid);
+
+        docRef.get().then(function(doc) {
+            if (doc.exists) {
+                console.log("user already existed: ", doc.data());
+            } else {
+                // doc.data() will be undefined in this case
+                docRef.set({
+                    "uid" : uid,
+                    "displayName" : firebase.auth().currentUser.displayName.split(' ')[0],
+                    "points to add": 0,
+                    "leaf": 0
+                }).then(function() {
+                    console.log("new user is added!");
+                });
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+
+
         break;
       }
       case 'cancel': {
