@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import CustomHeader from '../components/CustomHeader';
 import ChallengesScreen from '../screens/ChallengesScreen';
 import MonsterScreen from '../screens/MonsterScreen';
+
 import ScoreboardScreen from '../screens/ScoreboardScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
