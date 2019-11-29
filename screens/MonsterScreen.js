@@ -21,7 +21,7 @@ import ModalContent from '../components/ModalContent';
 
 const MonsterScreen = () => {
   const dbh = firebase.firestore();
-  const uid = 'HHyoObL2Oy9ZVoPsMlqg';
+  const uid = firebase.auth().currentUser.uid;
   const [showModal, setShowModal] = useState(false);
   const [monsterSrc, setMonsterSrc] = useState('');
   const [crrProgress, setCrrProgress] = useState(0);
