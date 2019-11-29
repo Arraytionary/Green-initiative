@@ -10671,10 +10671,10 @@ react-native-snap-carousel@^3.8.4:
     prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
 
-react-native-svg-transformer@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/react-native-svg-transformer/-/react-native-svg-transformer-0.14.1.tgz#a974a337ad712dc88e99538e2b1479b690e87b98"
-  integrity sha512-nrnu26s647z6Ve49H+ZSMNCFzva5csKpZyB3akvwKPAYLs2dP0YFezFIjWxwZjmAkIHAw+sQlrGx5a3jg+qsJg==
+react-native-svg-transformer@^0.14.3:
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/react-native-svg-transformer/-/react-native-svg-transformer-0.14.3.tgz#43c8e176f5a11f16f39b87a64018e0ac090ffbdb"
+  integrity sha512-agDGdMeeBAsWEgg/u7mjtR2Z3c8smGCLep/n3svwifut9dpswZCP+bSIrU8ekg6RNtxAJL+eGJbWjJ38vWxw6g==
   dependencies:
     "@svgr/core" "^4.3.3"
     "@svgr/plugin-svgo" "^4.3.1"
