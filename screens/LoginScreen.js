@@ -88,6 +88,15 @@ const LoginScreen = () => {
                 }).then(function() {
                     console.log("new user is added!");
                 });
+                docRef.collection("challenges").doc("challenge_1").set({
+                    "completed": false
+                });
+                docRef.collection("challenges").doc("challenge_2").set({
+                    "completed": false
+                });
+                docRef.collection("challenges").doc("challenge_3").set({
+                    "completed": false
+                });
                 console.log("No such document!");
             }
         }).catch(function(error) {
