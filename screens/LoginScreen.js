@@ -83,7 +83,8 @@ const LoginScreen = () => {
                     "uid" : uid,
                     "displayName" : firebase.auth().currentUser.displayName.split(' ')[0],
                     "points to add": 0,
-                    "leaf": 0
+                    "leaf": 0,
+                    "selected monster": "earthy"
                 }).then(function() {
                     console.log("new user is added!");
                 });
