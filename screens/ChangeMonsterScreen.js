@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { Dimensions, StyleSheet, Image } from 'react-native';
 import { Text, View, Button } from 'native-base';
@@ -70,7 +71,7 @@ const ChangeMonsterScreen = () => {
     }
     return (
       <Button
-        style={{ backgroundColor: item.buttonColor }}
+        style={{ backgroundColor: item.buttonColor, ...styles.button }}
         onPress={() => setSelected(item.name)}
       >
         <Text>Select</Text>
@@ -78,7 +79,7 @@ const ChangeMonsterScreen = () => {
     );
   };
 
-  const _renderItem = ({ item, index }) => (
+  const _renderItem = ({ item }) => (
     <View
       style={{
         height: '100%',
