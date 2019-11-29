@@ -41,7 +41,7 @@ const MonsterScreen = () => {
   const [crrMonsterInfo, setCrrMonsterInfo] = useState({'level': 0, 'crrPoint': 0});
 
   useEffect(() => fetchMonster(),[]);
-  useEffect(() => fetchMonsterLevel(), [crrMonsterName]);
+  useEffect(() => fetchMonsterLevel(crrMonsterName), [crrMonsterName]);
   useEffect(() => getMonsterInfo(), [crrMonsterLv, crrMonsterName]);
   useEffect(() => getProgressToAdd(), []);
   // useEffect(() => addMonsterProgress(), [progressToAdd]);
@@ -53,14 +53,15 @@ const MonsterScreen = () => {
   let fetchMonster = () =>{
     dbh.collection('users').doc(uid).onSnapshot(function(doc){
       setCrrMonsterName(doc.data()['selected monster']);
+      setCrrLeaf(doc.data()['leaf'])
       })
       // doc.forEach(docx => {
       //   console.log(docx.data());
       // });
   };
 
-  let fetchMonsterLevel = () =>{
-    dbh.collection('users').doc(uid).collection('monsters').doc(crrMonsterName).onSnapshot(async function(doc){
+  let fetchMonsterLevel = (monsterName) =>{
+    dbh.collection('users').doc(uid).collection('monsters').doc(monsterName).get().then(async function(doc){
       const data = await doc.data();
       setCrrMonsterLv(data['level']);
       setCrrProgress(data['crrPoint']);
@@ -69,47 +70,50 @@ const MonsterScreen = () => {
   };
 
   let getMonsterInfo = () =>{
-    if(crrMonsterName && crrMonsterLv) {
-      dbh.collection('monsters').doc(crrMonsterName).collection('levels').doc(`${crrMonsterLv}`).onSnapshot(async (snapshot) => {
+    // if(crrMonsterName && crrMonsterLv) {
+      dbh.collection('monsters').doc(crrMonsterName).collection('levels').doc(`${crrMonsterLv}`).get().then(async (snapshot) => {
         const data = await snapshot.data();
         setCrrBound(data['expBound']);
         setMonsterSrc(data['src'])
         // setCrrMonsterInfo(snapshot.data());
       })
-    }
+    // }
   };
 
   let getProgressToAdd = () =>{
     dbh.collection('users').doc(uid).onSnapshot(async (snapshot) => {
       const toAdd = await snapshot.data()['points to add'];
-      setCrrLeaf(snapshot.data()['leaf']);
+      const monsterName = await snapshot.data()['selected monster'];
+      const leaf = await snapshot.data()['leaf'];
       dbh.collection('users')
           .doc(uid)
           .collection('monsters')
-          .doc(crrMonsterName)
+          .doc(monsterName)
           .get()
           .then(async (query) => {
+            console.log(monsterName);
             const crrPoint = await query.data()["crrPoint"];
+            const level = await query.data()['level'];
             let bound = 1;
-            await dbh.collection('monsters').doc(crrMonsterName).collection('levels').doc(`${crrMonsterLv}`).get().then(async (monsterQ) => {
-              bound = monsterQ.data()["expBound"]
+            await dbh.collection('monsters').doc(monsterName).collection('levels').doc(`${level}`).get().then(async (monsterQ) => {
+              bound = await monsterQ.data()["expBound"]
             })
             if(toAdd !== 0){
               let newCrrPoint = crrPoint + toAdd;
               if (newCrrPoint >= bound){
                 newCrrPoint -= bound
                 console.log(`${newCrrPoint}/${crrBound}`);
-                levelUp();
+                levelUp(monsterName, leaf, level);
               }
               dbh.collection('users')
                   .doc(uid)
                   .collection('monsters')
-                  .doc(crrMonsterName)
+                  .doc(monsterName)
                   .set({
                     crrPoint: newCrrPoint
                   },
                   {merge: true})
-                  .then(
+                  .then(()=>{
                     dbh.collection('users')
                         .doc(uid)
                         .set({
@@ -117,25 +121,28 @@ const MonsterScreen = () => {
                         },
                         {merge: true}
                         )
+                    fetchMonsterLevel(monsterName, leaf);
+                  }
                   )
             }
           })
     })
   };
 
-  let levelUp = () =>{
+  let levelUp = (monsterName, leaf, level) =>{
+    setCrrLeaf(leaf + 1);
     dbh.collection('users')
         .doc(uid)
         .collection('monsters')
-        .doc(crrMonsterName)
-        .set({level: crrMonsterLv + 1}, {merge: true})
-        .then(
+        .doc(monsterName)
+        .set({level: level + 1}, {merge: true})
+        .then(()=>{
             dbh.collection('users')
                 .doc(uid)
-                .set({leaf: crrLeaf + 1}, {merge: true})
+                .set({leaf: leaf + 1}, {merge: true})
                 .then(
                     toggleModal()
-            )
+            )}
         )
   };
 
