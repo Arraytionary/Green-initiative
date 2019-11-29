@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { Text, Button, TouchableHighlight, View, Alert,AppRegistry, StyleSheet} from 'react-native';
-import { H1, H2, H3, Icon } from 'native-base';
+import { Text, TouchableHighlight, View, Alert,AppRegistry, StyleSheet} from 'react-native';
+import {Button as Button_Native} from 'react-native'
+import { H1, H2, H3, Icon, Button} from 'native-base';
 import Modal from "react-native-modal";
 import { SvgUri } from 'react-native-svg';
 import firebase from 'firebase';
@@ -66,8 +67,13 @@ class CompletedChallengeModal extends Component {
         return (
 
             <View >
-
-                <Button title="Complete" onPress={this.toggleModal} />
+                <Button
+                    style={[this.props.buttonStyle, { backgroundColor: this.props.buttonColor }]}
+                    onPress={this.toggleModal}
+                >
+                    <Text style={{ color: 'white' }}>Complete</Text>
+                </Button>
+                {/*<Button_Native title="Complete" onPress={this.toggleModal} />*/}
                 <Modal isVisible={this.state.isModalVisible}
                        animationIn="zoomInDown"
                 >
@@ -81,8 +87,8 @@ class CompletedChallengeModal extends Component {
                         <H1 style={{ color: 'darkcyan'}}>Challenge Completed!</H1>
                         <H3 style={{ color: 'darkorange'}}>30 points received</H3>
 
-                        <Button title="Share" onPress={this.onShare.bind(this)} />
-                        <Button title="Back to Challenge" onPress={this.toggleModal} />
+                        <Button_Native title="Share" onPress={this.onShare.bind(this)} />
+                        <Button_Native title="Back to Challenge" onPress={this.toggleModal} />
                     </View>
 
 

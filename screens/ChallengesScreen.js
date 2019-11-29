@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import CompleteChallengeModal from '../components/CompletedChallengeModal'
 import {
   View,
   Text,
@@ -120,11 +121,12 @@ const ChallengesScreen = props => {
                   <SvgUri width="80%" height="80%" uri={image} />
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
-                  <Button
-                    style={[styles.button, { backgroundColor: buttonColor }]}
-                  >
-                    <Text style={{ color: 'white' }}>Complete</Text>
-                  </Button>
+                  <CompleteChallengeModal buttonStyle={styles.button} buttonColor={buttonColor}/>
+                  {/*<Button*/}
+                    {/*style={[styles.button, { backgroundColor: buttonColor }]}*/}
+                  {/*>*/}
+                    {/*<Text style={{ color: 'white' }}>Complete</Text>*/}
+                  {/*</Button>*/}
                 </View>
               </View>
             </View>
