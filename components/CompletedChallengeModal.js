@@ -15,12 +15,36 @@ class CompletedChallengeModal extends Component {
     constructor(props) {
         super(props);
         this.db = firebase.firestore();
+        this.uid = firebase.auth().currentUser.uid;
         this.state =  {
             isModalVisible: false,
             completed: false,
         };
 
     }
+    componentWillMount(){
+        console.log("props challengesID", this.props.challengeId)
+        console.log("in componentDidmount")
+        this.db.collection("users").doc(this.uid).collection("challenges").doc(`challenge_${this.props.challengeId}`).get().then( (doc)=>{
+            console.log("in init state from db")
+            const data = doc.data();
+            this.setState({
+                completed: data['completed']
+            });
+            console.log("value in constructor, completed == ",this.state.completed)
+        }).catch(function(error) {
+        console.log("line 45, Error getting document:", error);
+    });
+    }
+    // componentWillMount(){
+    //     this.db.collection("users").doc(this.uid).collection("challenges").doc(`challenge_${this.props.challengeId}`).get().then(async function(doc){
+    //         const data = await doc.data();
+    //         this.setState({
+    //             completed: data['completed']
+    //         });
+    //     })
+    // }
+
     toggleModal = () => {
         this.setState({ isModalVisible: !this.state.isModalVisible });
         console.log("toggleModal to isModalVisible == ",this.state.isModalVisible);
@@ -28,6 +52,15 @@ class CompletedChallengeModal extends Component {
     complete = () => {
         this.setState({completed: true});
         console.log("completed the challenge");
+        this.db.collection("users").doc(this.uid).collection("challenges").doc("challenge_"+this.props.challengeId).set({
+            completed: true
+        });
+        // dbh.collection('users').doc(uid).collection('monsters').doc(monsterName).get().then(async function(doc){
+        //     const data = await doc.data();
+        //     setCrrMonsterLv(data['level']);
+        //     setCrrProgress(data['crrPoint']);
+        //     // getMonsterInfo()
+        // })
         // add point to database
     };
 
@@ -48,8 +81,23 @@ class CompletedChallengeModal extends Component {
             });
     }
     render() {
+        //
+        // this.db.collection("users").doc(this.uid).collection("challenges").doc("challenge_"+this.props.challengeId).get().then(async function(doc){
+        //     console.log("in init state from db")
+        //     const data = doc.data();
+        //     console.log("data ",data)
+        //     console.log("data ",data['completed'])
+        //     this.setState({
+        //         completed: data['completed']
+        //     });
+        // }).catch(function(error) {
+        //     console.log("line 101, Error getting document:", error);
+        // });
         let mainButton;
+        console.log("in render")
+        console.log("this.state.completed == ", this.state.completed);
         if (!this.state.completed){
+
             mainButton = <Button
                 style={[this.props.buttonStyle, { backgroundColor: this.props.buttonColor }]}
                 onPress={this.toggleModal}
