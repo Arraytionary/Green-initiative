@@ -15,38 +15,22 @@ class CompletedChallengeModal extends Component {
     constructor(props) {
         super(props);
         this.db = firebase.firestore();
-        this.styles = StyleSheet.create({
-            screen: {
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-            },
-            item: {
-                borderRadius: 14,
-                height: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-            },
-            text: {
-                fontSize: 50,
-                fontWeight: 'bold',
-            },
-            button: {
-                justifyContent: 'center',
-                borderRadius: 24,
-                width: 156,
-                height: 56,
-            },
-        });
         this.state =  {
             isModalVisible: false,
+            completed: false,
         };
+
     }
     toggleModal = () => {
         this.setState({ isModalVisible: !this.state.isModalVisible });
         console.log("toggleModal to isModalVisible == ",this.state.isModalVisible);
     };
+    complete = () => {
+        this.setState({completed: true});
+        console.log("completed the challenge");
+        // add point to database
+    };
+
     onShare(){
         console.log('FileSystem.documentDirectory ', FileSystem.documentDirectory)
         console.log('image_source',image_source);
@@ -64,15 +48,27 @@ class CompletedChallengeModal extends Component {
             });
     }
     render() {
+        let mainButton;
+        if (!this.state.completed){
+            mainButton = <Button
+                style={[this.props.buttonStyle, { backgroundColor: this.props.buttonColor }]}
+                onPress={this.toggleModal}
+            >
+                <Text style={{ color: 'white' }}>Complete</Text>
+            </Button>;
+        }else{
+            mainButton = <Icon type="Entypo" name="check" style={{color:'green'}}/>
+        }
         return (
 
             <View >
-                <Button
-                    style={[this.props.buttonStyle, { backgroundColor: this.props.buttonColor }]}
-                    onPress={this.toggleModal}
-                >
-                    <Text style={{ color: 'white' }}>Complete</Text>
-                </Button>
+                {mainButton}
+                {/*<Button*/}
+                    {/*style={[this.props.buttonStyle, { backgroundColor: this.props.buttonColor }]}*/}
+                    {/*onPress={this.toggleModal}*/}
+                {/*>*/}
+                    {/*<Text style={{ color: 'white' }}>Complete</Text>*/}
+                {/*</Button>*/}
                 {/*<Button_Native title="Complete" onPress={this.toggleModal} />*/}
                 <Modal isVisible={this.state.isModalVisible}
                        animationIn="zoomInDown"
@@ -88,7 +84,7 @@ class CompletedChallengeModal extends Component {
                         <H3 style={{ color: 'darkorange'}}>30 points received</H3>
 
                         <Button_Native title="Share" onPress={this.onShare.bind(this)} />
-                        <Button_Native title="Back to Challenge" onPress={this.toggleModal} />
+                        <Button_Native title="Back to Challenge" onPress={()=>{this.toggleModal(); this.complete();}} />
                     </View>
 
 
