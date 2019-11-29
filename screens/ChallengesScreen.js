@@ -83,6 +83,19 @@ const ChallengesScreen = props => {
         'Cars release approximately 333 million tons of carbon dioxide into the atmosphere annually, which is 20 percent of the world’s total',
         points: 100,
     },
+    {
+      challengeId: 3,
+        backgroundColor: '#ff8047',
+        buttonColor: '#ff6937',
+        title: 'Challenges 3',
+        subtitle: 'Say no to plastic straw',
+        image:"https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/noStraw.svg?alt=media&token=4f080de9-4e14-4ded-abb3-9b4d89f96a4e"
+       // image: "https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/pngtree-hand-drawn-no-plastic-straws-doodle-icon-png-image_1725678-removebg-preview(2).png?alt=media&token=03edffb4-9415-45f5-91f1-7e7b35029d2a"
+
+
+
+
+    }
   ]);
   const card = useRef([]);
 
