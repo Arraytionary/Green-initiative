@@ -86,9 +86,7 @@ const LoginScreen = () => {
                   displayName: firebase
                     .auth()
                     .currentUser.displayName.split(' ')[0],
-                  'points to add': 0,
                   leaf: 0,
-                  'selected monster': 'earthy',
                 })
                 .then(function() {
                   console.log('new user is added!');
@@ -111,7 +109,6 @@ const LoginScreen = () => {
                 .set({
                   completed: false,
                 });
-              console.log('No such document!');
             }
           })
           .catch(function(error) {

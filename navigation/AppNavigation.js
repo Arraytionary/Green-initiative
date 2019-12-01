@@ -16,6 +16,7 @@ import LoginScreen from '../screens/LoginScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 
 import WelcomeScreen from '../screens/welcomeScreens/welcomeScreen';
+import ChooseMonsterScreen from '../screens/welcomeScreens/ChooseMonsterScreen';
 
 const ScoreboardNavigators = createStackNavigator(
   {
@@ -23,14 +24,14 @@ const ScoreboardNavigators = createStackNavigator(
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
-        header: CustomHeader,
-      },
-    },
+        header: CustomHeader
+      }
+    }
   },
   {
     defaultNavigationOptions: {
-      header: null,
-    },
+      header: null
+    }
   }
 );
 
@@ -40,14 +41,14 @@ const ChallengesNavigator = createStackNavigator(
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
-        header: CustomHeader,
-      },
-    },
+        header: CustomHeader
+      }
+    }
   },
   {
     defaultNavigationOptions: {
-      header: null,
-    },
+      header: null
+    }
   }
 );
 
@@ -57,20 +58,20 @@ const MonsterNavigator = createStackNavigator(
     Shop: {
       screen: ShopScreen,
       navigationOptions: {
-        header: CustomHeader,
-      },
+        header: CustomHeader
+      }
     },
     ChangeMonster: {
       screen: ChangeMonsterScreen,
       navigationOptions: {
-        header: CustomHeader,
-      },
-    },
+        header: CustomHeader
+      }
+    }
   },
   {
     defaultNavigationOptions: {
-      header: null,
-    },
+      header: null
+    }
   }
 );
 
@@ -78,10 +79,10 @@ const MainNavigators = createBottomTabNavigator(
   {
     Challenges: ChallengesNavigator,
     Monster: MonsterNavigator,
-    Scoreboard: ScoreboardNavigators,
+    Scoreboard: ScoreboardNavigators
   },
   {
-    tabBarComponent: CustomTabBar,
+    tabBarComponent: CustomTabBar
   }
 );
 
@@ -89,8 +90,8 @@ const AuthStack = createStackNavigator(
   { Login: LoginScreen },
   {
     defaultNavigationOptions: {
-      header: null,
-    },
+      header: null
+    }
   }
 );
 
@@ -98,13 +99,14 @@ export default createAppContainer(
   // MainNavigators
   createSwitchNavigator(
     {
+      ChooseMonsterScreen,
       WelcomeScreen,
       AuthLoading: AuthLoadingScreen,
       App: MainNavigators,
-      Auth: AuthStack,
+      Auth: AuthStack
     },
     {
-      initialRouteName: 'AuthLoading',
+      initialRouteName: 'AuthLoading'
     }
   )
 );

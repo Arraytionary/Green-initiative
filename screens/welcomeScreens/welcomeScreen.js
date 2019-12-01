@@ -11,9 +11,9 @@ const WelcomeScreen = ({ navigation }) => {
       <Text>{displayName}</Text>
       <Button
         onPress={() => {
-          navigation.navigate('App');
+          navigation.navigate('ChooseMonsterScreen');
         }}
-        title="Got it"
+        title='Got it'
       />
     </View>
   );

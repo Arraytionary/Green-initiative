@@ -8,7 +8,7 @@ import {
   H1,
   H2,
   Button,
-  Icon,
+  Icon
 } from 'native-base';
 import Modal from 'react-native-modal';
 import * as Progress from 'react-native-progress';
@@ -41,7 +41,7 @@ const MonsterScreen = props => {
     leaf: 0,
     pointsToAdd: 0,
     selectedMonster: '',
-    uid: '',
+    uid: ''
   });
   const [monster, setMonster] = useState({
     name: '',
@@ -49,7 +49,7 @@ const MonsterScreen = props => {
     level: 0,
     progress: 1,
     image: '',
-    bound: 1,
+    bound: 1
   });
   const [loading, setLoading] = useState(false);
 
@@ -77,8 +77,8 @@ const MonsterScreen = props => {
     container: {
       padding: 10,
       alignItems: 'center',
-      justifyContent: 'center',
-    },
+      justifyContent: 'center'
+    }
   });
 
   // const fetchMonsterLevel = useCallback(monsterName => {
@@ -224,7 +224,7 @@ const MonsterScreen = props => {
 
   const renderScreen = () => {
     if (loading) {
-      return <ActivityIndicator size="large" color="#0000ff" />;
+      return <ActivityIndicator size='large' color='#0000ff' />;
     }
 
     return (
@@ -238,7 +238,7 @@ const MonsterScreen = props => {
               X
             </H2>
             <CardItem style={{ paddingBottom: 10 }}>
-              <ModalContent leaf="1"></ModalContent>
+              <ModalContent leaf='1'></ModalContent>
             </CardItem>
           </Card>
         </Modal>
@@ -247,7 +247,7 @@ const MonsterScreen = props => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            height: 100,
+            height: 100
           }}
         >
           <View style={styles.container}>
@@ -268,7 +268,7 @@ const MonsterScreen = props => {
             </Text>
             <Text style={{ textAlign: 'right' }}>
               {user.leaf}x{' '}
-              <Icon name="leaf" type="FontAwesome" style={{ color: 'green' }} />
+              <Icon name='leaf' type='FontAwesome' style={{ color: 'green' }} />
             </Text>
           </Col>
           <Col size={15}>
@@ -279,7 +279,7 @@ const MonsterScreen = props => {
         <Row
           size={65}
           style={{
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
           <View>
@@ -290,10 +290,10 @@ const MonsterScreen = props => {
           </View>
           <Fab
             style={{ backgroundColor: '#c3c3c3' }}
-            position="topRight"
+            position='topRight'
             onPress={() => props.navigation.navigate('Shop')}
           >
-            <Icon type="Entypo" name="shop" />
+            <Icon type='Entypo' name='shop' />
           </Fab>
         </Row>
         <Row size={10}>
