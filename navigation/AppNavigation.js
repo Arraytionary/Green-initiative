@@ -9,10 +9,11 @@ import MonsterScreen from '../screens/MonsterScreen';
 import ScoreboardScreen from '../screens/ScoreboardScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
-
 import CustomTabBar from '../components/CustomTabBar';
 import LoginScreen from '../screens/LoginScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+
+import WelcomeScreen from '../screens/welcomeScreens/welcomeScreen';
 
 const ScoreboardNavigators = createStackNavigator(
   {
@@ -54,7 +55,6 @@ const MainNavigators = createBottomTabNavigator(
     Monster: MonsterScreen,
 
     Scoreboard: ScoreboardNavigators,
-
   },
   {
     tabBarComponent: CustomTabBar,
@@ -74,6 +74,7 @@ export default createAppContainer(
   // MainNavigators
   createSwitchNavigator(
     {
+      WelcomeScreen,
       AuthLoading: AuthLoadingScreen,
       App: MainNavigators,
       Auth: AuthStack,
