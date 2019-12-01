@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import { Dimensions, StyleSheet, Image } from 'react-native';
+import { Dimensions, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { Text, View, Button } from 'native-base';
 import Constants from 'expo-constants';
-
 import Carousel from 'react-native-snap-carousel';
+import firebase from 'firebase';
+import { NavigationEvents } from 'react-navigation';
 
 const { width } = Dimensions.get('window');
 
@@ -34,7 +35,12 @@ const styles = StyleSheet.create({
 });
 
 const ChangeMonsterScreen = () => {
-  const [selected, setSelected] = useState('Dino');
+  const db = firebase.firestore();
+  const { uid } = firebase.auth().currentUser;
+  const userRef = db.collection('users').doc(uid);
+  const [selected, setSelected] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [owned, setOwned] = useState([]);
   const [monsters] = useState([
     {
       image:
@@ -59,6 +65,33 @@ const ChangeMonsterScreen = () => {
     },
   ]);
 
+  const fetchOwnedMonsters = () => {
+    setLoading(true);
+    userRef
+      .collection('monsters')
+      .get()
+      .then(snapshot => {
+        const temp = snapshot.docs.map(doc => doc.id.toLowerCase());
+        setOwned(monsters.filter(mon => temp.includes(mon.name.toLowerCase())));
+        setLoading(false);
+      });
+  };
+
+  const fetchSelected = () => {
+    setLoading(true);
+    userRef.get().then(doc => setSelected(doc.data().selectedMonster));
+  };
+
+  const handleOnFocus = () => {
+    fetchOwnedMonsters();
+    fetchSelected();
+  };
+
+  const handleOnSelect = name => {
+    userRef.update({ selectedMonster: name });
+    setSelected(name);
+  };
+
   const renderSelect = item => {
     if (selected === item.name) {
       return (
@@ -72,7 +105,7 @@ const ChangeMonsterScreen = () => {
     return (
       <Button
         style={{ backgroundColor: item.buttonColor, ...styles.button }}
-        onPress={() => setSelected(item.name)}
+        onPress={() => handleOnSelect(item.name)}
       >
         <Text>Select</Text>
       </Button>
@@ -103,6 +136,26 @@ const ChangeMonsterScreen = () => {
     </View>
   );
 
+  const renderContent = () => {
+    if (loading) {
+      return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+    return (
+      <View style={styles.screen}>
+        <Carousel
+          contentContainerCustomStyle={{
+            padding: 10,
+          }}
+          inactiveSlideScale={1}
+          data={owned}
+          renderItem={_renderItem}
+          itemWidth={width * (90 / 100)}
+          sliderWidth={200}
+        />
+      </View>
+    );
+  };
+
   return (
     <View
       style={{
@@ -112,18 +165,8 @@ const ChangeMonsterScreen = () => {
         paddingTop: Constants.statusBarHeight,
       }}
     >
-      <View style={styles.screen}>
-        <Carousel
-          contentContainerCustomStyle={{
-            padding: 10,
-          }}
-          inactiveSlideScale={1}
-          data={monsters}
-          renderItem={_renderItem}
-          itemWidth={width * (90 / 100)}
-          sliderWidth={200}
-        />
-      </View>
+      <NavigationEvents onDidFocus={() => handleOnFocus()} />
+      {renderContent()}
     </View>
   );
 };

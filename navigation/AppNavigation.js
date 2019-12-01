@@ -5,10 +5,11 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import CustomHeader from '../components/CustomHeader';
 import ChallengesScreen from '../screens/ChallengesScreen';
 import MonsterScreen from '../screens/MonsterScreen';
+import ShopScreen from '../screens/ShopScreen';
+import ChangeMonsterScreen from '../screens/ChangeMonsterScreen';
 
 import ScoreboardScreen from '../screens/ScoreboardScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-
 
 import CustomTabBar from '../components/CustomTabBar';
 import LoginScreen from '../screens/LoginScreen';
@@ -20,14 +21,14 @@ const ScoreboardNavigators = createStackNavigator(
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
-        header: CustomHeader,
-      },
-    },
+        header: CustomHeader
+      }
+    }
   },
   {
     defaultNavigationOptions: {
-      header: null,
-    },
+      header: null
+    }
   }
 );
 
@@ -37,27 +38,49 @@ const ChallengesNavigator = createStackNavigator(
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
-        header: CustomHeader,
-      },
-    },
+        header: CustomHeader
+      }
+    }
   },
   {
     defaultNavigationOptions: {
-      header: null,
+      header: null
+    }
+  }
+);
+
+const MonsterNavigator = createStackNavigator(
+  {
+    Monster: MonsterScreen,
+    Shop: {
+      screen: ShopScreen,
+      navigationOptions: {
+        header: CustomHeader
+      }
     },
+    ChangeMonster: {
+      screen: ChangeMonsterScreen,
+      navigationOptions: {
+        header: CustomHeader
+      }
+    }
+  },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
   }
 );
 
 const MainNavigators = createBottomTabNavigator(
   {
     Challenges: ChallengesNavigator,
-    Monster: MonsterScreen,
+    Monster: MonsterNavigator,
 
-    Scoreboard: ScoreboardNavigators,
-
+    Scoreboard: ScoreboardNavigators
   },
   {
-    tabBarComponent: CustomTabBar,
+    tabBarComponent: CustomTabBar
   }
 );
 
@@ -65,8 +88,8 @@ const AuthStack = createStackNavigator(
   { Login: LoginScreen },
   {
     defaultNavigationOptions: {
-      header: null,
-    },
+      header: null
+    }
   }
 );
 
@@ -76,10 +99,10 @@ export default createAppContainer(
     {
       AuthLoading: AuthLoadingScreen,
       App: MainNavigators,
-      Auth: AuthStack,
+      Auth: AuthStack
     },
     {
-      initialRouteName: 'AuthLoading',
+      initialRouteName: 'AuthLoading'
     }
   )
 );
