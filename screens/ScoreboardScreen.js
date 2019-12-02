@@ -73,10 +73,23 @@ const ScoreboardScreen = props => {
   const [photoUrl, setPhotoUrl] = useState('');
   useEffect(() => {
     if (firebase.auth().currentUser) {
-      setPhotoUrl(firebase.auth().currentUser.photoURL);
+      const { uid } = firebase.auth().currentUser;
+
+      db.collection('users')
+        .doc(uid)
+        .get()
+        .then(doc => {
+          const { displayPictureLargeUrl } = doc.data();
+          if (displayPictureLargeUrl) setPhotoUrl(displayPictureLargeUrl);
+          else setPhotoUrl(firebase.auth().currentUser.photoURL);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
       setUserName(firebase.auth().currentUser.displayName);
     }
-  }, []);
+  }, [db]);
   return (
     <View
       style={{

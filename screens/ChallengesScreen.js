@@ -49,36 +49,26 @@ const ChallengesScreen = props => {
   const [userName, setUserName] = useState('');
   const [totalPoints, setTotalPoints] = useState(0);
   const [photoUrl, setPhotoUrl] = useState('');
-  const db = firebase.firestore();
+  const db = firebase.firestore().collection('users');
 
   useEffect(() => {
     if (firebase.auth().currentUser) {
       const { uid } = firebase.auth().currentUser;
-      db.collection('users')
-        .doc(uid)
+      db.doc(uid)
         .get()
         .then(doc => {
-          if (!doc.exists) {
-            const { displayPictureLargeUrl } = doc.data();
-            setPhotoUrl(displayPictureLargeUrl);
-          } else {
-            setPhotoUrl(firebase.auth().currentUser.photoURL);
-            console.log('Document data:', doc.data());
-          }
+          const { displayPictureLargeUrl, totalPoints } = doc.data();
+          if (displayPictureLargeUrl) setPhotoUrl(displayPictureLargeUrl);
+          else setPhotoUrl(firebase.auth().currentUser.photoURL);
+          setTotalPoints(totalPoints);
         })
         .catch(err => {
           console.log('Error getting document', err);
         });
-
       setUserName(firebase.auth().currentUser.displayName.split(' ')[0]);
-      firebase
-        .firestore()
-        .collection('users')
-        .doc(firebase.auth().currentUser.uid)
-        .get()
-        .then(doc => setTotalPoints(doc.data().totalPoints));
     }
   }, [db]);
+
   const [challenges] = useState([
     {
       challengeId: 1,
