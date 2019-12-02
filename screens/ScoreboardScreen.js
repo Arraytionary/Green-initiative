@@ -93,50 +93,50 @@ Item.propTypes = {
 };
 
 const ScoreboardScreen = props => (
-  <View
-    style={{
-      flex: 1,
-      height: 500,
-      paddingTop: Constants.statusBarHeight,
-    }}
-  >
     <View
       style={{
-        flex: 4,
+        flex: 1,
+        height: 500,
+        paddingTop: Constants.statusBarHeight
       }}
     >
-      <LinearGradient
-        style={{ flex: 1, justifyContent: 'center' }}
-        colors={['#FFFFFF', '#8EEDC7', '#147D64']}
+      <View
+        style={{
+          flex: 4
+        }}
       >
-        <View style={{ alignItems: 'center' }}>
-          <TouchableWithoutFeedback
-            onPress={() => props.navigation.navigate('Profile')}
-          >
-            <View>
-              <ProfilePhoto />
-            </View>
-          </TouchableWithoutFeedback>
-          <H2 style={{ fontWeight: 'bold', marginTop: 12 }}>
-            Sarita Kongnurat
-          </H2>
-          <H3 style={{ margin: 12 }}>9999 points</H3>
-        </View>
-      </LinearGradient>
+        <LinearGradient
+          style={{ flex: 1, justifyContent: 'center' }}
+          colors={['#FFFFFF', '#8EEDC7', '#147D64']}
+        >
+          <View style={{ alignItems: 'center' }}>
+            <TouchableWithoutFeedback
+              onPress={() => props.navigation.navigate('Profile')}
+            >
+              <View>
+                <ProfilePhoto />
+              </View>
+            </TouchableWithoutFeedback>
+            <H2 style={{ fontWeight: 'bold', marginTop: 12 }}>
+              Sarita Kongnurat
+            </H2>
+            <H3 style={{ margin: 12 }}>9999 points</H3>
+          </View>
+        </LinearGradient>
+      </View>
+      <View style={{ flex: 6 }}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <FlatList
+            data={DATA}
+            renderItem={({ item }) => (
+              <Item title={item.title} point={item.point} />
+            )}
+            keyExtractor={item => item.id}
+          />
+        </SafeAreaView>
+      </View>
     </View>
-    <View style={{ flex: 6 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <FlatList
-          data={DATA}
-          renderItem={({ item }) => (
-            <Item title={item.title} point={item.point} />
-          )}
-          keyExtractor={item => item.id}
-        />
-      </SafeAreaView>
-    </View>
-  </View>
-);
+  );
 
 ScoreboardScreen.propTypes = {
   navigation: propTypes.object,
