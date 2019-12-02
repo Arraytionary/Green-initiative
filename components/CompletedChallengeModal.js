@@ -46,16 +46,23 @@ class CompletedChallengeModal extends Component {
     complete = () => {
         this.setState({completed: true});
         console.log("completed the challenge");
+
+        this.addProgress(this.props.points);
+
         this.db.collection("users").doc(this.uid).collection("challenges").doc("challenge_"+this.props.challengeId).set({
             completed: true
         });
-        this.db.collection("users").doc(this.uid).update({
-            "points to add": firebase.firestore.FieldValue.increment(this.props.points)
-        }).then(()=>{
-            console.log(" added points to db")
-        }).catch(error =>{
-            console.log("error: ",error);
-        });
+
+        // add this.props.points to monster
+        // if
+
+        // this.db.collection("users").doc(this.uid).update({
+        //     "points to add": firebase.firestore.FieldValue.increment(this.props.points)
+        // }).then(()=>{
+        //     console.log(" added points to db")
+        // }).catch(error =>{
+        //     console.log("error: ",error);
+        // });
 
         // dbh.collection('users').doc(uid).collection('monsters').doc(monsterName).get().then(async function(doc){
         //     const data = await doc.data();
@@ -65,6 +72,43 @@ class CompletedChallengeModal extends Component {
         // })
         // add point to database
     };
+    addProgress = (pointsToAdd) =>{
+        const docRef = this.db.collection("users").doc(this.uid);
+        const monsterRef = this.db.collection('monsters');
+        docRef.get().then((doc)=>{
+            const data = doc.data();
+            const monsterName = data['selectedMonster']
+            docRef.collection("monsters").doc(monsterName).get().then((doc)=>{
+                const data = doc.data();
+                const progress = data['progress'];
+                let newProgress = progress + pointsToAdd;
+                const bound = data['bound'];
+                const currentLevel = data['level'];
+                if(newProgress >= bound){
+                    monsterRef.doc(monsterName).collection('levels').doc(`${currentLevel+1}`).get().then((doc)=>{
+                        const data = doc.data();
+                        const expBound = data['expBound'];
+                        const src = data['src'];
+                        docRef.collection('monsters').doc(monsterName).set({
+                            bound: expBound,
+                            level: currentLevel+1,
+                            image: src,
+                            progress: newProgress-bound
+                         }, {merge: true})
+                    })
+                    docRef.update({
+                        "leaf": firebase.firestore.FieldValue.increment(1)
+                    });
+
+                }else{
+                    console.log("not reached next level");
+                    docRef.collection("monsters").doc(monsterName).update({
+                        progress: firebase.firestore.FieldValue.increment(pointsToAdd)
+                    })
+                }
+            })
+        })
+    }
 
     onShare(){
         console.log('FileSystem.documentDirectory ', FileSystem.documentDirectory)
