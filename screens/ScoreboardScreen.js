@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   FlatList,
   SafeAreaView,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import propTypes from 'prop-types';
 import Constants from 'expo-constants';
+import firebase from 'firebase';
 
 import { H2, H3 } from 'native-base';
 import ProfilePhoto from '../assets/icons/profile_photo.svg';
@@ -19,47 +21,22 @@ const DATA = [
     title: 'Sorawit Kongnurat',
     point: 9999,
   },
-  {
-    id: '2',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '3',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '4',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '5',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '6',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '7',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '8',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '9',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
 ];
+
+const db = firebase.firestore();
+db.collection('user')
+  .get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      DATA.push(
+        ...{
+          id: doc.id,
+          title: doc.get('displayName'),
+          points: doc.get('totalPoints'),
+        }
+      );
+    });
+  });
 
 function Item({ title, point }) {
   return (
@@ -92,17 +69,26 @@ Item.propTypes = {
   point: propTypes.number,
 };
 
-const ScoreboardScreen = props => (
+const ScoreboardScreen = props => {
+  const [userName, setUserName] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
+  useEffect(() => {
+    if (firebase.auth().currentUser) {
+      setPhotoUrl(firebase.auth().currentUser.photoURL);
+      setUserName(firebase.auth().currentUser.displayName);
+    }
+  }, []);
+  return (
     <View
       style={{
         flex: 1,
         height: 500,
-        paddingTop: Constants.statusBarHeight
+        paddingTop: Constants.statusBarHeight,
       }}
     >
       <View
         style={{
-          flex: 4
+          flex: 4,
         }}
       >
         <LinearGradient
@@ -114,12 +100,17 @@ const ScoreboardScreen = props => (
               onPress={() => props.navigation.navigate('Profile')}
             >
               <View>
-                <ProfilePhoto />
+                {photoUrl ? (
+                  <Image
+                    style={{ width: 70, height: 70 }}
+                    source={{ uri: photoUrl }}
+                  />
+                ) : (
+                  <ProfilePhoto width={70} height={70} />
+                )}
               </View>
             </TouchableWithoutFeedback>
-            <H2 style={{ fontWeight: 'bold', marginTop: 12 }}>
-              Sarita Kongnurat
-            </H2>
+            <H2 style={{ fontWeight: 'bold', marginTop: 12 }}>{userName}</H2>
             <H3 style={{ margin: 12 }}>9999 points</H3>
           </View>
         </LinearGradient>
@@ -137,6 +128,7 @@ const ScoreboardScreen = props => (
       </View>
     </View>
   );
+};
 
 ScoreboardScreen.propTypes = {
   navigation: propTypes.object,
