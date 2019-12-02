@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   logo: {
-    marginBottom: 11
+    marginBottom: 11,
   },
   textLogo: {
     color: '#0C6B58',
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.002,
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
     textShadowOffset: { width: 0, height: 4 },
-    textShadowRadius: 4
+    textShadowRadius: 4,
   },
   facebookLogoContainer: {
     width: 268,
@@ -37,15 +37,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
 
     alignItems: 'center',
-    borderRadius: 3
+    borderRadius: 3,
   },
   facebookLogo: {
     marginLeft: 20,
-    marginRight: 30
+    marginRight: 30,
   },
   facebookLogoText: {
-    color: 'white'
-  }
+    color: 'white',
+  },
 });
 
 const LoginScreen = () => {
@@ -56,7 +56,7 @@ const LoginScreen = () => {
     const { type, token } = await Facebook.logInWithReadPermissionsAsync(
       appId,
       {
-        permissions
+        permissions,
       }
     );
 
@@ -87,7 +87,7 @@ const LoginScreen = () => {
                     .auth()
                     .currentUser.displayName.split(' ')[0],
                   leaf: 0,
-                  totalPoints: 0
+                  totalPoints: 0,
                 })
                 .then(function() {
                   console.log('new user is added!');
@@ -96,19 +96,19 @@ const LoginScreen = () => {
                 .collection('challenges')
                 .doc('challenge_1')
                 .set({
-                  completed: false
+                  completed: false,
                 });
               docRef
                 .collection('challenges')
                 .doc('challenge_2')
                 .set({
-                  completed: false
+                  completed: false,
                 });
               docRef
                 .collection('challenges')
                 .doc('challenge_3')
                 .set({
-                  completed: false
+                  completed: false,
                 });
             }
           })
