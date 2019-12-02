@@ -62,17 +62,20 @@ const ScoreboardScreen = props => {
             id: doc.get('uid'),
             title: doc.get('displayName'),
             point: doc.get('totalPoints'),
-            photoUrl: doc.get('displayPictureLargeUrl'),
+            photoUrl: !doc.get('displayPictureLargeUrl')
+              ? firebase.auth().currentUser.photoURL
+              : doc.get('displayPictureLargeUrl'),
           });
           console.log('doc.data()', doc.data());
         });
+
         setData(array);
       });
   };
   useEffect(() => {
     if (firebase.auth().currentUser) {
       const { uid } = firebase.auth().currentUser;
-
+      const db = firebase.firestore();
       db.collection('users')
         .doc(uid)
         .get()
@@ -88,7 +91,7 @@ const ScoreboardScreen = props => {
       setUserName(firebase.auth().currentUser.displayName);
       fetchFirebaseData();
     }
-  }, [db]);
+  }, []);
   return (
     <View
       style={{
