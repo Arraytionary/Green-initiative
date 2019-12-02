@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     width: 156,
     height: 56,
-    backgroundColor: '#FFBC1F'
-  }
+    backgroundColor: '#FFBC1F',
+  },
 });
 
 const ShopScreen = () => {
@@ -24,27 +24,27 @@ const ShopScreen = () => {
     {
       image:
         'https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/monsters%2Fdino%2Fdino.gif?alt=media&token=f9fa883f-52d7-4dc9-97a6-b05a6f2c3f09',
-      name: 'Dino',
+      name: 'dino',
       textColor: '#409999',
       buttonColor: '#039b9b',
-      price: 200
+      price: 200,
     },
     {
       image:
         'https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/monsters%2Fearthy%2Fball.gif?alt=media&token=281e1632-1bda-4e0f-ae66-9ff9f13fa0c5',
-      name: 'Earthy',
+      name: 'earthy',
       textColor: '#2b6634',
       buttonColor: '#036312',
-      price: 300
+      price: 300,
     },
     {
       image:
         'https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/monsters%2Fpenpen%2Fpengin.gif?alt=media&token=60d7a4d6-4ef7-4207-8533-747dc4b71597',
-      name: 'Penpen',
+      name: 'penpen',
       textColor: '#666666',
       buttonColor: '#333333',
-      price: 400
-    }
+      price: 400,
+    },
   ]);
   const [notOwned, setNotOwned] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -69,7 +69,7 @@ const ShopScreen = () => {
       const leafLeft = leaf - monster.price;
       if (leafLeft < 0) {
         Alert.alert('Insufficient leaf', 'You do not have enough leaf yet', [
-          { text: 'OK' }
+          { text: 'OK' },
         ]);
       } else {
         userRef
@@ -80,7 +80,7 @@ const ShopScreen = () => {
             level: 1,
             bound: 20,
             progress: 0,
-            image: monster.image
+            image: monster.image,
           });
         userRef.update({ leaf: leafLeft });
         fetchNotOwnedMonsters();
@@ -90,7 +90,7 @@ const ShopScreen = () => {
 
   const renderShopList = () => {
     if (loading) {
-      return <ActivityIndicator size='large' color='#0000ff' />;
+      return <ActivityIndicator size="large" color="#0000ff" />;
     }
     if (notOwned.length === 0) {
       return <Text style={{ fontSize: 50 }}> The shop is empty </Text>;
@@ -103,7 +103,7 @@ const ShopScreen = () => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            paddingBottom: 50
+            paddingBottom: 50,
           }}
           key={monster.name}
         >
@@ -111,7 +111,7 @@ const ShopScreen = () => {
             style={{
               fontSize: 20,
               fontWeight: '400',
-              color: monster.textColor
+              color: monster.textColor,
             }}
           >
             {monster.name}
@@ -120,7 +120,7 @@ const ShopScreen = () => {
             style={{
               width: 200,
               height: 200,
-              resizeMode: 'contain'
+              resizeMode: 'contain',
             }}
             source={{ uri: monster.image }}
           ></Image>
