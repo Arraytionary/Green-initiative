@@ -48,13 +48,7 @@ Item.propTypes = {
 };
 
 const ScoreboardScreen = props => {
-  const [data, setData] = useState([
-    {
-      id: '1',
-      title: 'Sorawit Kongnurat',
-      point: 9999,
-    },
-  ]);
+  const [data, setData] = useState([]);
   const [userName, setUserName] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const fetchFirebaseData = () => {
