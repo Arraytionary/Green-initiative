@@ -37,8 +37,22 @@ const ProfileScreen = () => {
   const [userName, setUserName] = useState('Mapring');
   const [photoUrl, setPhotoUrl] = useState('');
   useEffect(() => {
+    const db = firebase.firestore().collection('users');
     if (firebase.auth().currentUser) {
-      setPhotoUrl(firebase.auth().currentUser.photoURL);
+      const { uid } = firebase.auth().currentUser;
+      db.doc(uid)
+        .get()
+        .then(doc => {
+          const { displayPictureLargeUrl } = doc.data();
+          if (displayPictureLargeUrl) {
+            setPhotoUrl(displayPictureLargeUrl);
+          } else {
+            setPhotoUrl(firebase.auth().currentUser.photoURL);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
       setUserName(firebase.auth().currentUser.displayName);
     }
   }, []);

@@ -66,6 +66,11 @@ const LoginScreen = () => {
           .auth()
           .setPersistence(firebase.auth.Auth.Persistence.LOCAL); // Set persistent auth state
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        const response = await fetch(
+          `https://graph.facebook.com/me?access_token=${token}&fields=picture.width(640)`
+        );
+        const { picture } = await response.json();
+        console.log(picture);
         await firebase.auth().signInWithCredential(credential); // Sign in with Facebook credential
 
         const db = firebase.firestore();
@@ -88,6 +93,7 @@ const LoginScreen = () => {
                     .currentUser.displayName.split(' ')[0],
                   leaf: 0,
                   totalPoints: 0,
+                  displayPictureLargeUrl: picture.data.url,
                 })
                 .then(function() {
                   console.log('new user is added!');
