@@ -23,21 +23,6 @@ const DATA = [
   },
 ];
 
-const db = firebase.firestore();
-db.collection('user')
-  .get()
-  .then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
-      DATA.push(
-        ...{
-          id: doc.id,
-          title: doc.get('displayName'),
-          points: doc.get('totalPoints'),
-        }
-      );
-    });
-  });
-
 function Item({ title, point }) {
   return (
     <View
@@ -70,6 +55,20 @@ Item.propTypes = {
 };
 
 const ScoreboardScreen = props => {
+  const db = firebase.firestore();
+  db.collection('user')
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        DATA.push(
+          ...{
+            id: doc.id,
+            title: doc.get('displayName'),
+            points: doc.get('totalPoints'),
+          }
+        );
+      });
+    });
   const [userName, setUserName] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   useEffect(() => {
