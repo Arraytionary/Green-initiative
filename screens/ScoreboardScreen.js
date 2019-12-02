@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   FlatList,
   SafeAreaView,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import propTypes from 'prop-types';
 import Constants from 'expo-constants';
+import firebase from 'firebase';
 
 import { H2, H3 } from 'native-base';
 import ProfilePhoto from '../assets/icons/profile_photo.svg';
@@ -16,46 +18,6 @@ import ProfilePhoto from '../assets/icons/profile_photo.svg';
 const DATA = [
   {
     id: '1',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '2',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '3',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '4',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '5',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '6',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '7',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '8',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-  {
-    id: '9',
     title: 'Sorawit Kongnurat',
     point: 9999,
   },
@@ -92,51 +54,80 @@ Item.propTypes = {
   point: propTypes.number,
 };
 
-const ScoreboardScreen = props => (
-  <View
-    style={{
-      flex: 1,
-      height: 500,
-      paddingTop: Constants.statusBarHeight,
-    }}
-  >
+const ScoreboardScreen = props => {
+  const db = firebase.firestore();
+  db.collection('user')
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        DATA.push(
+          ...{
+            id: doc.id,
+            title: doc.get('displayName'),
+            points: doc.get('totalPoints'),
+          }
+        );
+      });
+    });
+  const [userName, setUserName] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
+  useEffect(() => {
+    if (firebase.auth().currentUser) {
+      setPhotoUrl(firebase.auth().currentUser.photoURL);
+      setUserName(firebase.auth().currentUser.displayName);
+    }
+  }, []);
+  return (
     <View
       style={{
-        flex: 4,
+        flex: 1,
+        height: 500,
+        paddingTop: Constants.statusBarHeight,
       }}
     >
-      <LinearGradient
-        style={{ flex: 1, justifyContent: 'center' }}
-        colors={['#FFFFFF', '#8EEDC7', '#147D64']}
+      <View
+        style={{
+          flex: 4,
+        }}
       >
-        <View style={{ alignItems: 'center' }}>
-          <TouchableWithoutFeedback
-            onPress={() => props.navigation.navigate('Profile')}
-          >
-            <View>
-              <ProfilePhoto />
-            </View>
-          </TouchableWithoutFeedback>
-          <H2 style={{ fontWeight: 'bold', marginTop: 12 }}>
-            Sarita Kongnurat
-          </H2>
-          <H3 style={{ margin: 12 }}>9999 points</H3>
-        </View>
-      </LinearGradient>
+        <LinearGradient
+          style={{ flex: 1, justifyContent: 'center' }}
+          colors={['#FFFFFF', '#8EEDC7', '#147D64']}
+        >
+          <View style={{ alignItems: 'center' }}>
+            <TouchableWithoutFeedback
+              onPress={() => props.navigation.navigate('Profile')}
+            >
+              <View>
+                {photoUrl ? (
+                  <Image
+                    style={{ width: 70, height: 70 }}
+                    source={{ uri: photoUrl }}
+                  />
+                ) : (
+                  <ProfilePhoto width={70} height={70} />
+                )}
+              </View>
+            </TouchableWithoutFeedback>
+            <H2 style={{ fontWeight: 'bold', marginTop: 12 }}>{userName}</H2>
+            <H3 style={{ margin: 12 }}>9999 points</H3>
+          </View>
+        </LinearGradient>
+      </View>
+      <View style={{ flex: 6 }}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <FlatList
+            data={DATA}
+            renderItem={({ item }) => (
+              <Item title={item.title} point={item.point} />
+            )}
+            keyExtractor={item => item.id}
+          />
+        </SafeAreaView>
+      </View>
     </View>
-    <View style={{ flex: 6 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <FlatList
-          data={DATA}
-          renderItem={({ item }) => (
-            <Item title={item.title} point={item.point} />
-          )}
-          keyExtractor={item => item.id}
-        />
-      </SafeAreaView>
-    </View>
-  </View>
-);
+  );
+};
 
 ScoreboardScreen.propTypes = {
   navigation: propTypes.object,

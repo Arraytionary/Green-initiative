@@ -41,21 +41,21 @@ const ChangeMonsterScreen = props => {
     {
       image:
         'https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/monsters%2Fdino%2Fdino.gif?alt=media&token=f9fa883f-52d7-4dc9-97a6-b05a6f2c3f09',
-      name: 'Dino',
+      name: 'dino',
       textColor: '#409999',
       buttonColor: '#039b9b'
     },
     {
       image:
         'https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/monsters%2Fearthy%2Fball.gif?alt=media&token=281e1632-1bda-4e0f-ae66-9ff9f13fa0c5',
-      name: 'Earthy',
+      name: 'earthy',
       textColor: '#2b6634',
       buttonColor: '#036312'
     },
     {
       image:
         'https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/monsters%2Fpenpen%2Fpengin.gif?alt=media&token=60d7a4d6-4ef7-4207-8533-747dc4b71597',
-      name: 'Penpen',
+      name: 'penpen',
       textColor: '#666666',
       buttonColor: '#333333'
     }
@@ -69,7 +69,7 @@ const ChangeMonsterScreen = props => {
       .set({
         crrPoint: 0,
         level: 1,
-        bound: 20,
+        bound: 100,
         progress: 0,
         image: monster.image
       });
