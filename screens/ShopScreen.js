@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Content, Container } from 'native-base';
+import { View, Text, Button, Content, Container, Icon } from 'native-base';
 import { Image, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import Constants from 'expo-constants';
@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     width: 156,
     height: 56,
-    backgroundColor: '#FFBC1F',
-  },
+    backgroundColor: '#FFBC1F'
+  }
 });
 
 const ShopScreen = () => {
@@ -27,7 +27,7 @@ const ShopScreen = () => {
       name: 'dino',
       textColor: '#409999',
       buttonColor: '#039b9b',
-      price: 200,
+      price: 1
     },
     {
       image:
@@ -35,7 +35,7 @@ const ShopScreen = () => {
       name: 'earthy',
       textColor: '#2b6634',
       buttonColor: '#036312',
-      price: 300,
+      price: 1
     },
     {
       image:
@@ -43,8 +43,8 @@ const ShopScreen = () => {
       name: 'penpen',
       textColor: '#666666',
       buttonColor: '#333333',
-      price: 400,
-    },
+      price: 1
+    }
   ]);
   const [notOwned, setNotOwned] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -69,7 +69,7 @@ const ShopScreen = () => {
       const leafLeft = leaf - monster.price;
       if (leafLeft < 0) {
         Alert.alert('Insufficient leaf', 'You do not have enough leaf yet', [
-          { text: 'OK' },
+          { text: 'OK' }
         ]);
       } else {
         userRef
@@ -78,9 +78,9 @@ const ShopScreen = () => {
           .set({
             crrPoint: 0,
             level: 1,
-            bound: 20,
+            bound: 100,
             progress: 0,
-            image: monster.image,
+            image: monster.image
           });
         userRef.update({ leaf: leafLeft });
         fetchNotOwnedMonsters();
@@ -90,7 +90,7 @@ const ShopScreen = () => {
 
   const renderShopList = () => {
     if (loading) {
-      return <ActivityIndicator size="large" color="#0000ff" />;
+      return <ActivityIndicator size='large' color='#0000ff' />;
     }
     if (notOwned.length === 0) {
       return <Text style={{ fontSize: 50 }}> The shop is empty </Text>;
@@ -103,7 +103,7 @@ const ShopScreen = () => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            paddingBottom: 50,
+            paddingBottom: 50
           }}
           key={monster.name}
         >
@@ -111,7 +111,7 @@ const ShopScreen = () => {
             style={{
               fontSize: 20,
               fontWeight: '400',
-              color: monster.textColor,
+              color: monster.textColor
             }}
           >
             {monster.name}
@@ -120,13 +120,18 @@ const ShopScreen = () => {
             style={{
               width: 200,
               height: 200,
-              resizeMode: 'contain',
+              resizeMode: 'contain'
             }}
             source={{ uri: monster.image }}
           ></Image>
           <Button style={styles.button} onPress={() => buy(monster)}>
             <Text style={{ color: 'black', fontWeight: '800' }}>
-              {monster.price} POINTS
+              {monster.price}{' '}
+              <Icon
+                name='leaf'
+                type='FontAwesome'
+                style={{ color: 'green', fontSize: 20 }}
+              />
             </Text>
           </Button>
         </View>
