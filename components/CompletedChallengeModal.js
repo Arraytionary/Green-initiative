@@ -16,6 +16,7 @@ class CompletedChallengeModal extends Component {
         super(props);
         this.db = firebase.firestore();
         this.uid = firebase.auth().currentUser.uid;
+        console.log("uid in modal: ",this.uid);
         this.state =  {
             isModalVisible: false,
             completed: false,
@@ -47,6 +48,13 @@ class CompletedChallengeModal extends Component {
         console.log("completed the challenge");
         this.db.collection("users").doc(this.uid).collection("challenges").doc("challenge_"+this.props.challengeId).set({
             completed: true
+        });
+        this.db.collection("users").doc(this.uid).update({
+            "points to add": firebase.firestore.FieldValue.increment(this.props.points)
+        }).then(()=>{
+            console.log(" added points to db")
+        }).catch(error =>{
+            console.log("error: ",error);
         });
 
         // dbh.collection('users').doc(uid).collection('monsters').doc(monsterName).get().then(async function(doc){
