@@ -95,13 +95,17 @@ class CompletedChallengeModal extends Component {
                             image: src,
                             progress: newProgress-bound
                          }, {merge: true})
-                    })
+                    });
                     docRef.update({
-                        "leaf": firebase.firestore.FieldValue.increment(1)
+                        leaf: firebase.firestore.FieldValue.increment(1),
+                        totalPoints: firebase.firestore.FieldValue.increment(pointsToAdd)
                     });
 
                 }else{
                     console.log("not reached next level");
+                    docRef.update({
+                        totalPoints: firebase.firestore.FieldValue.increment(pointsToAdd)
+                    });
                     docRef.collection("monsters").doc(monsterName).update({
                         progress: firebase.firestore.FieldValue.increment(pointsToAdd)
                     })
