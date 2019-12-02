@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Facebook from 'expo-facebook';
 import firebase from 'firebase';
@@ -65,53 +66,63 @@ const LoginScreen = () => {
           .auth()
           .setPersistence(firebase.auth.Auth.Persistence.LOCAL); // Set persistent auth state
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
-        const facebookProfileData = await firebase
-          .auth()
-          .signInWithCredential(credential); // Sign in with Facebook credential
-        console.log(facebookProfileData);
+        await firebase.auth().signInWithCredential(credential); // Sign in with Facebook credential
+
         const db = firebase.firestore();
-        var uid = firebase.auth().currentUser.uid;
+        const { uid } = firebase.auth().currentUser;
 
-        var docRef = db.collection("users").doc(uid);
+        const docRef = db.collection('users').doc(uid);
 
-        docRef.get().then(function(doc) {
+        docRef
+          .get()
+          .then(function(doc) {
             if (doc.exists) {
-                console.log("user already existed: ", doc.data());
+              console.log('user already existed: ', doc.data());
             } else {
-                // doc.data() will be undefined in this case
-                docRef.set({
-                    "uid" : uid,
-                    "displayName" : firebase.auth().currentUser.displayName.split(' ')[0],
-                    "points to add": 0,
-                    "leaf": 0,
-                    "selected monster": "earthy"
-                }).then(function() {
-                    console.log("new user is added!");
+              // doc.data() will be undefined in this case
+              docRef
+                .set({
+                  uid,
+                  displayName: firebase
+                    .auth()
+                    .currentUser.displayName.split(' ')[0],
+                  leaf: 0,
+                })
+                .then(function() {
+                  console.log('new user is added!');
                 });
-                docRef.collection("challenges").doc("challenge_1").set({
-                    "completed": false
+              docRef
+                .collection('challenges')
+                .doc('challenge_1')
+                .set({
+                  completed: false,
                 });
-                docRef.collection("challenges").doc("challenge_2").set({
-                    "completed": false
+              docRef
+                .collection('challenges')
+                .doc('challenge_2')
+                .set({
+                  completed: false,
                 });
-                docRef.collection("challenges").doc("challenge_3").set({
-                    "completed": false
+              docRef
+                .collection('challenges')
+                .doc('challenge_3')
+                .set({
+                  completed: false,
                 });
-                console.log("No such document!");
             }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
-
+          })
+          .catch(function(error) {
+            console.log('Error getting document:', error);
+          });
 
         break;
       }
       case 'cancel': {
-        console.log('cancel');
+        // console.log('cancel');
         break;
       }
       default: {
-        console.log('default case triggered');
+        // console.log('default case triggered');
       }
     }
   };
