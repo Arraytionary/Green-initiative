@@ -15,15 +15,7 @@ import firebase from 'firebase';
 import { H2, H3 } from 'native-base';
 import ProfilePhoto from '../assets/icons/profile_photo.svg';
 
-const DATA = [
-  {
-    id: '1',
-    title: 'Sorawit Kongnurat',
-    point: 9999,
-  },
-];
-
-function Item({ title, point }) {
+function Item({ title, point, photoUrl }) {
   return (
     <View
       style={{
@@ -41,7 +33,7 @@ function Item({ title, point }) {
           borderBottomColor: 'lightgrey',
         }}
       >
-        <ProfilePhoto height={50} width={50} />
+        <Image style={{ width: 50, height: 50 }} source={{ uri: photoUrl }} />
         <Text style={{ fontWeight: 'bold' }}>{title}</Text>
         <Text>{point} points</Text>
       </View>
@@ -52,29 +44,52 @@ function Item({ title, point }) {
 Item.propTypes = {
   title: propTypes.string,
   point: propTypes.number,
+  photoUrl: propTypes.string,
 };
 
 const ScoreboardScreen = props => {
-  const db = firebase.firestore();
-  db.collection('user')
-    .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        DATA.push(
-          ...{
-            id: doc.id,
-            title: doc.get('displayName'),
-            points: doc.get('totalPoints'),
-          }
-        );
-      });
-    });
+  const [data, setData] = useState([]);
   const [userName, setUserName] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
+  const fetchFirebaseData = () => {
+    const db = firebase.firestore();
+    const array = [];
+    db.collection('users')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          array.push({
+            id: doc.get('uid'),
+            title: doc.get('displayName'),
+            point: doc.get('totalPoints'),
+            photoUrl: !doc.get('displayPictureLargeUrl')
+              ? firebase.auth().currentUser.photoURL
+              : doc.get('displayPictureLargeUrl'),
+          });
+          console.log('doc.data()', doc.data());
+        });
+
+        setData(array);
+      });
+  };
   useEffect(() => {
     if (firebase.auth().currentUser) {
-      setPhotoUrl(firebase.auth().currentUser.photoURL);
+      const { uid } = firebase.auth().currentUser;
+      const db = firebase.firestore();
+      db.collection('users')
+        .doc(uid)
+        .get()
+        .then(doc => {
+          const { displayPictureLargeUrl } = doc.data();
+          if (displayPictureLargeUrl) setPhotoUrl(displayPictureLargeUrl);
+          else setPhotoUrl(firebase.auth().currentUser.photoURL);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
       setUserName(firebase.auth().currentUser.displayName);
+      fetchFirebaseData();
     }
   }, []);
   return (
@@ -117,9 +132,13 @@ const ScoreboardScreen = props => {
       <View style={{ flex: 6 }}>
         <SafeAreaView style={{ flex: 1 }}>
           <FlatList
-            data={DATA}
+            data={data}
             renderItem={({ item }) => (
-              <Item title={item.title} point={item.point} />
+              <Item
+                title={item.title}
+                point={item.point}
+                photoUrl={item.photoUrl}
+              />
             )}
             keyExtractor={item => item.id}
           />
