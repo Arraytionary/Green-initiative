@@ -99,7 +99,7 @@ const ChallengesScreen = props => {
         'https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/noStraw.svg?alt=media&token=4f080de9-4e14-4ded-abb3-9b4d89f96a4e',
       description:
         'Plastic straws are among the top 10 contributors to plastic marine debris across the globe and most recycling machines aren’t capable of recycling straws, given their size.',
-      points: 100,
+      points: 120,
       // image: "https://firebasestorage.googleapis.com/v0/b/the-green-initiative.appspot.com/o/pngtree-hand-drawn-no-plastic-straws-doodle-icon-png-image_1725678-removebg-preview(2).png?alt=media&token=03edffb4-9415-45f5-91f1-7e7b35029d2a"
     },
   ]);
