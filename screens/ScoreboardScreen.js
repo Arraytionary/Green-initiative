@@ -51,6 +51,7 @@ const ScoreboardScreen = props => {
   const [data, setData] = useState([]);
   const [userName, setUserName] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
+  const [userPoints, setPoints] = useState('');
   const fetchFirebaseData = () => {
     const db = firebase.firestore();
     const array = [];
@@ -71,6 +72,7 @@ const ScoreboardScreen = props => {
 
         setData(array);
       });
+
   };
   useEffect(() => {
     if (firebase.auth().currentUser) {
@@ -83,6 +85,7 @@ const ScoreboardScreen = props => {
           const { displayPictureLargeUrl } = doc.data();
           if (displayPictureLargeUrl) setPhotoUrl(displayPictureLargeUrl);
           else setPhotoUrl(firebase.auth().currentUser.photoURL);
+          setPoints(doc.get('totalPoints'))
         })
         .catch(err => {
           console.log(err);
@@ -125,7 +128,7 @@ const ScoreboardScreen = props => {
               </View>
             </TouchableWithoutFeedback>
             <H2 style={{ fontWeight: 'bold', marginTop: 12 }}>{userName}</H2>
-            <H3 style={{ margin: 12 }}>9999 points</H3>
+            <H3 style={{ margin: 12 }}>{userPoints} points</H3>
           </View>
         </LinearGradient>
       </View>

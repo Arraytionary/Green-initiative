@@ -55,16 +55,16 @@ const ChallengesScreen = props => {
     if (firebase.auth().currentUser) {
       const { uid } = firebase.auth().currentUser;
       db.doc(uid)
-        .get()
-        .then(doc => {
-          const { displayPictureLargeUrl, totalPoints } = doc.data();
+        .onSnapshot(doc => {
+          let { displayPictureLargeUrl, totalPoints } = doc.data();
+            totalPoints = doc.data()['totalPoints'];
           if (displayPictureLargeUrl) setPhotoUrl(displayPictureLargeUrl);
           else setPhotoUrl(firebase.auth().currentUser.photoURL);
           setTotalPoints(totalPoints);
         })
-        .catch(err => {
-          console.log('Error getting document', err);
-        });
+        // .catch(err => {
+        //   console.log('Error getting document', err);
+        // });
       setUserName(firebase.auth().currentUser.displayName.split(' ')[0]);
     }
   }, [db]);
