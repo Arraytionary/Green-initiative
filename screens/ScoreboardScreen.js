@@ -80,16 +80,23 @@ const ScoreboardScreen = props => {
       const db = firebase.firestore();
       db.collection('users')
         .doc(uid)
-        .get()
-        .then(doc => {
-          const { displayPictureLargeUrl } = doc.data();
-          if (displayPictureLargeUrl) setPhotoUrl(displayPictureLargeUrl);
-          else setPhotoUrl(firebase.auth().currentUser.photoURL);
-          setPoints(doc.get('totalPoints'))
-        })
-        .catch(err => {
-          console.log(err);
-        });
+          .onSnapshot(doc => {
+              let { displayPictureLargeUrl, totalPoints } = doc.data();
+              totalPoints = doc.data()['totalPoints'];
+              if (displayPictureLargeUrl) setPhotoUrl(displayPictureLargeUrl);
+              else setPhotoUrl(firebase.auth().currentUser.photoURL);
+              setPoints(totalPoints);
+          })
+        // .get()
+        // .then(doc => {
+        //   const { displayPictureLargeUrl } = doc.data();
+        //   if (displayPictureLargeUrl) setPhotoUrl(displayPictureLargeUrl);
+        //   else setPhotoUrl(firebase.auth().currentUser.photoURL);
+        //   setPoints(doc.get('totalPoints'))
+        // })
+        // .catch(err => {
+        //   console.log(err);
+        // });
 
       setUserName(firebase.auth().currentUser.displayName);
       fetchFirebaseData();
